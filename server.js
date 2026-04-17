@@ -1,8 +1,23 @@
 const http = require('http');
 const https = require('https');
+const fs = require('fs');
+const path = require('path');
 const KEY = '6253414071f3108b28ac5e888a0ddd15';
+const PORT = process.env.PORT || 3001;
 
 http.createServer((req, res) => {
+  // Servi il file HTML se richiesto
+  if (req.url === '/' || req.url === '/index.html') {
+    const filePath = path.join(__dirname, 'sistema-scommesse.html');
+    fs.readFile(filePath, (err, data) => {
+      if (err) { res.writeHead(404); res.end('Not found'); return; }
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(data);
+    });
+    return;
+  }
+
+  // Proxy API Football
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -28,7 +43,6 @@ http.createServer((req, res) => {
     res.end(JSON.stringify({ error: e.message }));
   }).end();
 
-}).listen(3001, () => {
-  console.log('✅ SERVER OK — http://localhost:3001');
-  console.log('   Lascia questa finestra aperta e usa l app nel browser');
+}).listen(PORT, () => {
+  console.log('✅ SERVER OK — porta ' + PORT);
 });

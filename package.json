@@ -1,0 +1,9 @@
+c{
+  "name": "sistema-scommesse",
+  "version": "1.0.0",
+  "description": "Sistema Scommesse Serie A e B",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
