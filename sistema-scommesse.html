@@ -7,24 +7,23 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#0f1923;color:#e0e0e0;min-height:100vh}
-:root{--bg:#0f1923;--card:#1a2a1a;--border:#2d4a2d;--green:#7dc455;--dgreen:#1e3a1e;--gold:#d4a455;--muted:#888;--blue:#55a4d4;--red:#e05555;--purple:#a455d4}
-button,input,select{font-family:inherit;cursor:pointer}
-input,select{cursor:text}
+:root{--bg:#0f1923;--card:#1a2a1a;--border:#2d4a2d;--green:#7dc455;--dgreen:#1e3a1e;--gold:#d4a455;--muted:#888;--blue:#55a4d4;--red:#e05555}
+button,input{font-family:inherit;cursor:pointer}input{cursor:text}
 .header{background:linear-gradient(135deg,#1a2a1a,#0f1923);border-bottom:2px solid #2d5a1b;padding:13px 16px}
-.hrow{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.htitle{font-weight:700;font-size:16px;color:var(--green)}
-.hsub{font-size:11px;color:var(--muted)}
+.hrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.htitle{font-weight:700;font-size:16px;color:var(--green)}.hsub{font-size:11px;color:var(--muted)}
 .badge{background:var(--green);color:var(--bg);border-radius:20px;padding:3px 10px;font-weight:700;font-size:12px}
 .brow{display:flex;gap:8px;margin-bottom:8px}
 .lbtn{flex:1;padding:11px;border-radius:9px;border:none;background:linear-gradient(135deg,#7dc455,#5a9a3a);color:var(--bg);font-weight:700;font-size:14px}
 .lbtn:disabled{background:#2a4a2a;cursor:wait}
-.dlbtn{background:linear-gradient(135deg,#55a4d4,#3a7aaa);color:#fff;border:none;border-radius:9px;padding:11px 16px;font-weight:700;font-size:13px;white-space:nowrap}
+.chrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.cbtn{padding:6px 12px;border-radius:20px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--bg);color:var(--muted)}
+.cbtn.on{border-color:var(--green);color:var(--green);background:var(--dgreen)}
+.srv{font-size:11px;padding:3px 8px;border-radius:6px;margin-left:auto}
+.srv.ok{background:#1a3a1a;color:var(--green);border:1px solid var(--green)}
+.srv.ko{background:#3a1a1a;color:var(--red);border:1px solid var(--red)}
 .errmsg{font-size:12px;color:var(--red);margin-top:6px;background:#2a1a1a;border-radius:7px;padding:7px 10px}
 .lastupd{font-size:11px;color:var(--muted);margin-top:5px;text-align:center}
-/* Campionato selector */
-.champ-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.cbtn2{padding:6px 12px;border-radius:20px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--bg);color:var(--muted)}
-.cbtn2.active{border-color:var(--green);color:var(--green);background:var(--dgreen)}
 .tabs{display:flex;background:#141f14;border-bottom:1px solid #1e3a1e;overflow-x:auto}
 .tbtn{flex:1;min-width:70px;padding:11px 4px;border:none;font-size:11px;font-weight:600;background:transparent;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
 .tbtn.active{background:var(--dgreen);color:var(--green);border-bottom-color:var(--green)}
@@ -34,146 +33,137 @@ input,select{cursor:text}
 .match{background:var(--card);border-radius:10px;padding:11px;margin-bottom:9px;border:1px solid #222}
 .match.sel{border-color:#2d5a1b}
 .mhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;flex-wrap:wrap;gap:4px}
-.orow{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}
-.ogroup{margin-bottom:6px}
-.ogroup-lbl{font-size:10px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.ogrp{margin-bottom:6px}.ogrplbl{font-size:10px;color:var(--muted);margin-bottom:3px;text-transform:uppercase}
+.orow{display:flex;flex-wrap:wrap;gap:5px}
 .obtn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--bg);color:var(--green)}
-.obtn.active{background:var(--green);color:var(--bg);border-color:var(--green)}
+.obtn.on{background:var(--green);color:var(--bg);border-color:var(--green)}
 .obtn.fissa{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 .obtn.col{background:var(--blue);color:var(--bg);border-color:var(--blue)}
 .lfilt{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .lfbtn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--bg);color:var(--green)}
-.lfbtn.active{background:var(--green);color:var(--bg);border-color:var(--green)}
+.lfbtn.on{background:var(--green);color:var(--bg);border-color:var(--green)}
 .sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.scard{background:var(--card);border-radius:9px;padding:9px 6px;text-align:center;border:1px solid var(--border)}
-.sval{font-size:17px;font-weight:700}
-.slbl{font-size:10px;color:var(--muted);margin-top:2px}
+.sc{background:var(--card);border-radius:9px;padding:9px 6px;text-align:center;border:1px solid var(--border)}
+.sv{font-size:17px;font-weight:700}.sl{font-size:10px;color:var(--muted);margin-top:2px}
 .colit{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid #1e3a3e}
-.errbtn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);font-weight:700;font-size:12px;background:var(--bg);color:var(--green)}
-.errbtn.active{background:var(--green);color:var(--bg);border-color:var(--green)}
-.sumrow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
-.sched{background:var(--card);border-radius:7px;padding:7px 10px;margin-bottom:5px;border:1px solid #222;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px}
+.eb{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);font-weight:700;font-size:12px;background:var(--bg);color:var(--green)}
+.eb.on{background:var(--green);color:var(--bg);border-color:var(--green)}
+.sr{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.shed{background:var(--card);border-radius:7px;padding:7px 10px;margin-bottom:5px;border:1px solid #222;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px}
 .stag{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:2px 6px;font-size:10px}
 .pgn{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap}
-.pgbtn{background:var(--card);border:1px solid var(--border);color:var(--green);border-radius:6px;padding:5px 10px;font-size:13px}
-.pgbtn:disabled{opacity:.4}
+.pgb{background:var(--card);border:1px solid var(--border);color:var(--green);border-radius:6px;padding:5px 10px;font-size:13px}
+.pgb:disabled{opacity:.4}
 .fbar{background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .fbar input{padding:6px 9px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:#e0e0e0;font-size:13px;width:65px}
-.costbtn{background:var(--bg);border:1px solid var(--border);color:var(--green);width:28px;height:28px;border-radius:6px;font-size:16px}
-.disc{margin:16px 14px;padding:9px;background:#1a1a0a;border-radius:8px;border:1px solid #5a5a1b;font-size:10px;color:#666;text-align:center}
+.cb2{background:var(--bg);border:1px solid var(--border);color:var(--green);width:28px;height:28px;border-radius:6px;font-size:16px}
 .empty{text-align:center;padding:60px 20px;color:var(--muted)}
 .ibanner{background:var(--card);border-radius:10px;padding:9px 14px;margin-bottom:12px;border:1px solid #2d5a1b;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .gbtn{background:var(--green);color:var(--bg);border:none;border-radius:7px;padding:6px 14px;font-weight:700;font-size:12px}
 .bluebtn{background:var(--blue);color:var(--bg);border:none;border-radius:8px;padding:10px;font-weight:700;font-size:13px;width:100%;margin-top:10px}
 .fgbtn{background:var(--green);color:var(--bg);border:none;border-radius:8px;padding:11px;font-weight:700;font-size:14px;width:100%;margin-top:6px}
 .linp{width:100%;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:#e0e0e0;font-size:13px;margin-top:6px}
-.lbadge{font-size:10px;font-weight:700;margin-right:6px;padding:1px 6px;border-radius:8px}
-.bbadge{font-size:10px;color:var(--green);background:var(--dgreen);border-radius:10px;padding:2px 7px}
+.lbdg{font-size:10px;font-weight:700;margin-right:6px;padding:1px 6px;border-radius:8px}
+.bbdg{font-size:10px;color:var(--green);background:var(--dgreen);border-radius:10px;padding:2px 7px}
 .psec{background:var(--card);border-radius:10px;padding:13px;margin-bottom:14px;border:1px solid var(--border)}
 .pbtn{background:#2a3a5a;color:#8ab4f8;border:1px solid #3a5a8a;border-radius:8px;padding:10px 18px;font-weight:700;font-size:13px;margin-right:8px;margin-bottom:8px}
-.srv-ok{font-size:11px;padding:4px 10px;border-radius:6px;margin-left:8px}
-.srv-online{background:#1a3a1a;color:var(--green);border:1px solid var(--green)}
-.srv-offline{background:#3a1a1a;color:var(--red);border:1px solid var(--red)}
+.disc{margin:16px 14px;padding:9px;background:#1a1a0a;border-radius:8px;border:1px solid #5a5a1b;font-size:10px;color:#666;text-align:center}
 </style>
 </head>
 <body>
 <div class="header">
   <div class="hrow">
     <span style="font-size:24px">⚽</span>
-    <div style="flex:1"><div class="htitle">Sistema Scommesse Italia</div><div class="hsub">Serie A · Serie B · Serie C · Champions · Coppa Italia</div></div>
-    <span id="srvBadge" class="srv-ok srv-offline">● Server offline</span>
-    <div id="hbadge" style="display:none;gap:6px;align-items:center;margin-left:8px">
-      <span id="icnt" style="font-size:11px;color:var(--muted)">0</span>
+    <div style="flex:1"><div class="htitle">Sistema Scommesse Italia</div><div class="hsub">Serie A · B · C · Champions · Coppa Italia</div></div>
+    <span id="srv" class="srv ok">● Online</span>
+    <div id="hbdg" style="display:none;gap:6px;align-items:center;margin-left:8px">
+      <span id="ic" style="font-size:11px;color:var(--muted)"></span>
       <span style="color:var(--green)">→</span>
-      <span id="fcnt" class="badge">0</span>
+      <span id="fc" class="badge">0</span>
     </div>
   </div>
-
-  <!-- Selezione campionati -->
-  <div class="champ-row" id="champRow">
-    <button class="cbtn2 active" onclick="toggleChamp('all')" id="champ-all">🏆 Tutti</button>
-    <button class="cbtn2" onclick="toggleChamp(135)" id="champ-135">🇮🇹 Serie A</button>
-    <button class="cbtn2" onclick="toggleChamp(136)" id="champ-136">🇮🇹 Serie B</button>
-    <button class="cbtn2" onclick="toggleChamp('c')" id="champ-c">🇮🇹 Serie C</button>
-    <button class="cbtn2" onclick="toggleChamp(2)" id="champ-2">⭐ Champions</button>
-    <button class="cbtn2" onclick="toggleChamp(137)" id="champ-137">🏅 Coppa Italia</button>
+  <div class="chrow">
+    <button class="cbtn on" onclick="tgC('all')" id="ca">🏆 Tutti</button>
+    <button class="cbtn" onclick="tgC(135)" id="c135">🇮🇹 Serie A</button>
+    <button class="cbtn" onclick="tgC(136)" id="c136">🇮🇹 Serie B</button>
+    <button class="cbtn" onclick="tgC('sc')" id="csc">🇮🇹 Serie C</button>
+    <button class="cbtn" onclick="tgC(2)" id="c2">⭐ Champions</button>
+    <button class="cbtn" onclick="tgC(137)" id="c137">🏅 Coppa Italia</button>
   </div>
-
   <div class="brow">
-    <button class="lbtn" id="loadBtn" onclick="loadMatches()">🔄 Aggiorna partite settimanali</button>
-    <button class="dlbtn" onclick="downloadApp()">⬇️ Scarica App</button>
+    <button class="lbtn" id="lb" onclick="load()">🔄 Aggiorna partite settimanali</button>
   </div>
-  <div id="lastUpd" class="lastupd" style="display:none"></div>
-  <div id="errMsg" class="errmsg" style="display:none"></div>
+  <div id="lu" class="lastupd" style="display:none"></div>
+  <div id="em" class="errmsg" style="display:none"></div>
 </div>
 
 <div class="tabs">
-  <button class="tbtn active" onclick="switchTab('partite')" id="tab-partite">📋 Partite</button>
-  <button class="tbtn" onclick="switchTab('riduzione')" id="tab-riduzione">🔧 Riduzione</button>
-  <button class="tbtn" onclick="switchTab('output')" id="tab-output">📊 Output</button>
-  <button class="tbtn" onclick="switchTab('stampa')" id="tab-stampa">🖨️ Stampa</button>
+  <button class="tbtn active" onclick="sT('p')" id="tp">📋 Partite</button>
+  <button class="tbtn" onclick="sT('r')" id="tr">🔧 Riduzione</button>
+  <button class="tbtn" onclick="sT('o')" id="to">📊 Output</button>
+  <button class="tbtn" onclick="sT('s')" id="ts">🖨️ Stampa</button>
 </div>
 
 <div class="content">
-  <div id="page-partite">
-    <div class="lfilt" id="lfilt"></div>
-    <div id="ibanner" class="ibanner" style="display:none">
-      <span id="itext" style="font-size:13px;color:var(--muted)"></span>
-      <button class="gbtn" onclick="switchTab('riduzione')">Riduci →</button>
+  <div id="pp">
+    <div class="lfilt" id="lf"></div>
+    <div id="ib" class="ibanner" style="display:none">
+      <span id="it" style="font-size:13px;color:var(--muted)"></span>
+      <button class="gbtn" onclick="sT('r')">Riduci →</button>
     </div>
-    <div id="mlist"><div class="empty"><div style="font-size:48px;margin-bottom:16px">⚽</div><div style="font-size:16px;margin-bottom:8px;color:#e0e0e0">Nessuna partita caricata</div><div style="font-size:13px">Avvia il server Node.js e clicca "Aggiorna"</div></div></div>
+    <div id="ml"><div class="empty"><div style="font-size:48px;margin-bottom:16px">⚽</div><div style="font-size:16px;margin-bottom:8px;color:#e0e0e0">Nessuna partita caricata</div><div style="font-size:13px">Clicca "Aggiorna partite settimanali"</div></div></div>
   </div>
 
-  <div id="page-riduzione" style="display:none">
-    <div class="card"><div class="ctitle" style="color:var(--gold)">📌 Fisse</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Esiti obbligatori in tutte le schedine.</div><div id="fisseList"></div></div>
-    <div class="card"><div class="ctitle" style="color:var(--blue)">🔧 Costruttore Colonne</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Seleziona esiti per la colonna.</div><div id="colBuild"></div><button class="bluebtn" onclick="addColumn()">➕ Aggiungi colonna</button></div>
-    <div class="card" id="colSec" style="display:none">
+  <div id="pr" style="display:none">
+    <div class="card"><div class="ctitle" style="color:var(--gold)">📌 Fisse</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Esiti obbligatori in tutte le schedine.</div><div id="fl"></div></div>
+    <div class="card"><div class="ctitle" style="color:var(--blue)">🔧 Costruttore Colonne</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Seleziona esiti per la colonna.</div><div id="cb"></div><button class="bluebtn" onclick="addCol()">➕ Aggiungi colonna</button></div>
+    <div class="card" id="cs" style="display:none">
       <div class="ctitle" style="color:var(--blue)">📋 Colonne</div>
-      <div id="colList"></div>
+      <div id="cl"></div>
       <div style="margin-top:10px">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Logica: <span style="color:var(--green)">COL1 AND COL2</span> / <span style="color:var(--green)">(COL1 OR COL2) AND COL3</span> — vuoto = OR tutte</div>
-        <input class="linp" id="logicInp" placeholder="Es: COL1 OR COL2" oninput="recompute()">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Logica: <span style="color:var(--green)">COL1 AND COL2</span> / <span style="color:var(--green)">(COL1 OR COL2) AND COL3</span> — vuoto=OR tutte</div>
+        <input class="linp" id="li" placeholder="Es: COL1 OR COL2" oninput="rc()">
       </div>
     </div>
     <div class="card">
-      <div class="sumrow"><span style="color:var(--muted)">Sviluppo integrale:</span><span id="s0" style="font-weight:700">0</span></div>
-      <div class="sumrow"><span style="color:var(--muted)">Dopo fisse:</span><span id="s1" style="font-weight:700;color:var(--gold)">0</span></div>
-      <div class="sumrow"><span style="color:var(--muted)">Dopo colonne:</span><span id="s2" style="font-weight:700;color:var(--green)">0</span></div>
-      <button class="fgbtn" onclick="switchTab('output')">📊 Vai all'Output →</button>
+      <div class="sr"><span style="color:var(--muted)">Sviluppo integrale:</span><span id="s0" style="font-weight:700">0</span></div>
+      <div class="sr"><span style="color:var(--muted)">Dopo fisse:</span><span id="s1" style="font-weight:700;color:var(--gold)">0</span></div>
+      <div class="sr"><span style="color:var(--muted)">Dopo colonne:</span><span id="s2" style="font-weight:700;color:var(--green)">0</span></div>
+      <button class="fgbtn" onclick="sT('o')">📊 Output →</button>
     </div>
   </div>
 
-  <div id="page-output" style="display:none">
-    <div id="outEmpty" class="empty"><div style="font-size:36px;margin-bottom:12px">📋</div>Nessuna schedina.<br>Controlla selezioni e riduzione.</div>
-    <div id="outContent" style="display:none">
-      <div class="sgrid" id="sgrid"></div>
+  <div id="po" style="display:none">
+    <div id="oe" class="empty"><div style="font-size:36px;margin-bottom:12px">📋</div>Nessuna schedina.</div>
+    <div id="oc" style="display:none">
+      <div class="sgrid" id="sg"></div>
       <div class="fbar">
         <span style="font-size:12px;color:var(--muted)">Quota:</span>
-        <input id="minO" placeholder="Min" oninput="recompute()">
-        <input id="maxO" placeholder="Max" oninput="recompute()">
-        <button onclick="document.getElementById('minO').value='';document.getElementById('maxO').value='';recompute()" style="background:#3a1a1a;border:1px solid #5a2a2a;color:var(--red);border-radius:6px;padding:5px 10px;font-size:11px">Reset</button>
+        <input id="mn" placeholder="Min" oninput="rc()">
+        <input id="mx" placeholder="Max" oninput="rc()">
+        <button onclick="document.getElementById('mn').value='';document.getElementById('mx').value='';rc()" style="background:#3a1a1a;border:1px solid #5a2a2a;color:var(--red);border-radius:6px;padding:5px 10px;font-size:11px">Reset</button>
         <span style="font-size:12px;color:var(--muted);margin-left:auto">€/sched:</span>
-        <button class="costbtn" onclick="changeCost(-0.5)">−</button>
-        <span id="costLbl" style="font-weight:700;min-width:40px;text-align:center">€2.00</span>
-        <button class="costbtn" onclick="changeCost(0.5)">+</button>
+        <button class="cb2" onclick="cc(-0.5)">−</button>
+        <span id="cl2" style="font-weight:700;min-width:40px;text-align:center">€2.00</span>
+        <button class="cb2" onclick="cc(0.5)">+</button>
       </div>
-      <div id="pinfo" style="font-size:11px;color:#555;margin-bottom:6px"></div>
-      <div id="schList"></div>
-      <div class="pgn" id="pgn"></div>
+      <div id="pi" style="font-size:11px;color:#555;margin-bottom:6px"></div>
+      <div id="sl"></div>
+      <div class="pgn" id="pn"></div>
     </div>
   </div>
 
-  <div id="page-stampa" style="display:none">
+  <div id="ps" style="display:none">
     <div class="psec">
       <div class="ctitle" style="color:var(--green);margin-bottom:12px">🖨️ Stampa Sistema</div>
-      <button class="pbtn" onclick="doPrint('all')">🖨️ Tutto</button>
-      <button class="pbtn" onclick="doPrint('integrale')">📋 Integrale</button>
-      <button class="pbtn" onclick="doPrint('condizioni')">🔧 Condizioni</button>
-      <button class="pbtn" onclick="doPrint('schedine')">📊 Schedine</button>
+      <button class="pbtn" onclick="dP('all')">🖨️ Tutto</button>
+      <button class="pbtn" onclick="dP('i')">📋 Integrale</button>
+      <button class="pbtn" onclick="dP('c')">🔧 Condizioni</button>
+      <button class="pbtn" onclick="dP('s')">📊 Schedine</button>
     </div>
     <div class="psec">
       <div class="ctitle" style="color:var(--muted);margin-bottom:10px;font-size:12px">ANTEPRIMA</div>
-      <div id="ppreview" style="font-size:12px;color:var(--muted)">Nessun dato.</div>
+      <div id="pv" style="font-size:12px;color:var(--muted)">Nessun dato.</div>
     </div>
   </div>
 </div>
@@ -181,442 +171,308 @@ input,select{cursor:text}
 <div class="disc">⚠️ <strong style="color:#d4d455">Gioca responsabilmente.</strong> Il gioco d'azzardo può causare dipendenza. 18+</div>
 
 <script>
-const PORT=3001;
-const API='https://sistema-scomesse-production.up.railway.app';
-
-// Campionati
-const LEAGUES={
-  135:{name:'Serie A',color:'#7dc455',flag:'🇮🇹'},
-  136:{name:'Serie B',color:'#d4a455',flag:'🇮🇹'},
-  135755:{name:'Serie C/A',color:'#a455d4',flag:'🇮🇹'},
-  135756:{name:'Serie C/B',color:'#a455d4',flag:'🇮🇹'},
-  135757:{name:'Serie C/C',color:'#a455d4',flag:'🇮🇹'},
-  2:{name:'Champions',color:'#55a4d4',flag:'⭐'},
-  137:{name:'Coppa Italia',color:'#e05555',flag:'🏅'},
-};
-
-const SERIE_C_IDS=[135755,135756,135757];
-
-// Tipi di giocate
-const BET_GROUPS=[
-  {key:'1x2',   label:'1X2',          bets:['1','X','2']},
-  {key:'dc',    label:'Doppia Chance', bets:['1X','X2','12']},
-  {key:'ou',    label:'Over/Under',    bets:['Over','Under']},
-  {key:'gg',    label:'GG/NG',         bets:['GG','NG']},
-  {key:'home',  label:'Gol Casa',      bets:['Casa Over','Casa Under']},
-  {key:'away',  label:'Gol Trasf.',    bets:['Trasf Over','Trasf Under']},
-  {key:'exact', label:'Ris. Esatto',   bets:['0-0','1-0','0-1','1-1','2-0','0-2','2-1','1-2','2-2','3-0','0-3','3-1','1-3','3-2','2-3']},
+const API='https://sistema-scommesse-production.up.railway.app';
+const LG={135:{n:'Serie A',c:'#7dc455'},136:{n:'Serie B',c:'#d4a455'},135755:{n:'Serie C/A',c:'#a455d4'},135756:{n:'Serie C/B',c:'#a455d4'},135757:{n:'Serie C/C',c:'#a455d4'},2:{n:'Champions',c:'#55a4d4'},137:{n:'Coppa Italia',c:'#e05555'}};
+const BG=[
+  {k:'1x2',l:'1X2',b:['1','X','2']},
+  {k:'dc',l:'Doppia Chance',b:['1X','X2','12']},
+  {k:'ou',l:'Over/Under 2.5',b:['Over','Under']},
+  {k:'gg',l:'GG/NG',b:['GG','NG']},
+  {k:'gh',l:'Gol Casa',b:['CasaO','CasaU']},
+  {k:'ga',l:'Gol Trasferta',b:['TrasfO','TrasfU']},
+  {k:'ex',l:'Risultato Esatto',b:['1-0','0-0','1-1','2-0','0-1','2-1','1-2','2-2','3-0','0-2','0-3','3-1']},
 ];
-
-let matches=[],selected={},fisse={},colBuilder={},columns=[];
-let curLeague='all',activeChamps=new Set(['all']),curFilter='Tutte';
-let costPerBet=2,pg=0;
+let M=[],sel={},fis={},colB={},cols=[];
+let filt='Tutte',cost=2,pg=0;
 const PS=50;
-let integral=[],afterFisse=[],afterCols=[],filtered=[];
+let INT=[],aF=[],aC=[],FIL=[];
+let AC=new Set(['all']);
 
-// ── SERVER CHECK ──
-async function checkServer(){
-  try{
-    const r=await fetch(API+'/status',{signal:AbortSignal.timeout(2000)});
-    if(r.ok){
-      document.getElementById('srvBadge').textContent='● Server online';
-      document.getElementById('srvBadge').className='srv-ok srv-online';
-      return true;
-    }
-  }catch(e){}
-  document.getElementById('srvBadge').textContent='● Server offline';
-  document.getElementById('srvBadge').className='srv-ok srv-offline';
-  return false;
-}
-setInterval(checkServer,5000);
-checkServer();
-
-// ── DOWNLOAD ──
-function downloadApp(){
-  const b=new Blob([document.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
-  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(b),download:'sistema-scommesse.html'});
-  a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+function tgC(id){
+  if(id==='all'){AC=new Set(['all']);}
+  else{AC.delete('all');AC.has(id)?AC.delete(id):AC.add(id);if(!AC.size)AC=new Set(['all']);}
+  ['all',135,136,'sc',2,137].forEach(k=>{const e=document.getElementById('c'+k);if(e)e.className='cbtn'+(AC.has(k)||(AC.has('all')&&k==='all')?' on':'');});
 }
 
-// ── API FETCH ──
-async function apiFetch(path){
-  const r=await fetch(API+path);
-  if(!r.ok)throw new Error('Server error '+r.status);
-  return r.json();
+function gLids(){
+  if(AC.has('all'))return[135,136,135755,135756,135757,2,137];
+  const r=[];
+  for(const c of AC){if(c==='sc')r.push(135755,135756,135757);else r.push(+c);}
+  return r;
 }
 
-// ── CAMPIONATI ──
-function toggleChamp(id){
-  if(id==='all'){
-    activeChamps=new Set(['all']);
-  } else {
-    activeChamps.delete('all');
-    if(activeChamps.has(id))activeChamps.delete(id);
-    else activeChamps.add(id);
-    if(activeChamps.size===0)activeChamps=new Set(['all']);
-  }
-  // Aggiorna UI bottoni
-  ['all',135,136,'c',2,137].forEach(k=>{
-    const el=document.getElementById('champ-'+k);
-    if(el)el.classList.toggle('active',activeChamps.has(k)||(activeChamps.has('all')&&k==='all'));
-  });
-}
-
-function getActiveLeagueIds(){
-  if(activeChamps.has('all'))return[135,136,...SERIE_C_IDS,2,137];
-  const ids=[];
-  for(const c of activeChamps){
-    if(c==='c')ids.push(...SERIE_C_IDS);
-    else ids.push(+c);
-  }
-  return ids;
-}
-
-// ── LOAD MATCHES ──
-async function loadMatches(){
-  const btn=document.getElementById('loadBtn'),err=document.getElementById('errMsg');
+async function load(){
+  const btn=document.getElementById('lb'),err=document.getElementById('em');
   btn.disabled=true;btn.textContent='⏳ Caricamento...';err.style.display='none';
-
-  const online=await checkServer();
-  if(!online){
-    err.style.display='block';
-    err.textContent='⚠️ Server offline! Apri il terminale, vai nella cartella del file e scrivi: node server.js';
-    btn.disabled=false;btn.textContent='🔄 Aggiorna partite settimanali';
-    return;
-  }
-
   try{
-    const leagueIds=getActiveLeagueIds();
-    const all=[];
-
-    for(const lid of leagueIds){
+    const ids=gLids();const all=[];
+    for(const lid of ids){
       try{
-        const d=await apiFetch(`/fixtures?league=${lid}&season=2025&next=15`);
+        const d=await(await fetch(API+'/fixtures?league='+lid+'&season=2025&next=15')).json();
         for(const f of(d.response||[])){
           const dt=new Date(f.fixture.date);
-          const m={
+          all.push({
             id:f.fixture.id,
-            league:LEAGUES[lid]?.name||'Campionato',
-            leagueId:lid,
-            leagueColor:LEAGUES[lid]?.color||'#888',
-            home:clean(f.teams.home.name),
-            away:clean(f.teams.away.name),
+            league:LG[lid]?LG[lid].n:'?',
+            lc:LG[lid]?LG[lid].c:'#888',
+            home:cl(f.teams.home.name),
+            away:cl(f.teams.away.name),
             date:dt.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'}),
             time:dt.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}),
-            odds:estimateOdds(f.teams.home.name,f.teams.away.name)
-          };
-          all.push(m);
+            odds:estO(f.teams.home.name,f.teams.away.name)
+          });
         }
-      }catch(e){console.log('Errore lega',lid,e.message);}
+      }catch(e){console.log('Errore lega',lid,e);}
     }
-
-    if(!all.length)throw new Error('Nessuna partita trovata per i campionati selezionati');
-    matches=all;
-    reset();
-    // Carica quote reali in background
-    loadOddsBackground(all);
-
-    const u=document.getElementById('lastUpd');
+    if(!all.length)throw new Error('Nessuna partita trovata');
+    M=all;rst();ldQ(all);
+    const u=document.getElementById('lu');
     u.style.display='block';
     u.textContent='Aggiornato: '+new Date().toLocaleString('it-IT')+' — '+all.length+' partite';
   }catch(e){
-    console.error(e);
     err.style.display='block';
     err.textContent='⚠️ '+e.message;
   }
   btn.disabled=false;btn.textContent='🔄 Aggiorna partite settimanali';
 }
 
-async function loadOddsBackground(mlist){
-  for(const m of mlist){
+async function ldQ(ml){
+  for(const m of ml){
     try{
-      const od=await apiFetch('/odds?fixture='+m.id+'&bookmaker=8');
-      const bets=(od.response?.[0]?.bookmakers?.[0]?.bets)||[];
-      parseOdds(m,bets);
-      renderMatches();
+      const od=await(await fetch(API+'/odds?fixture='+m.id+'&bookmaker=8')).json();
+      pO(m,(od.response&&od.response[0]&&od.response[0].bookmakers&&od.response[0].bookmakers[0]?od.response[0].bookmakers[0].bets:[]));
+      rM();
     }catch(e){}
-    await new Promise(r=>setTimeout(r,200)); // throttle
+    await new Promise(r=>setTimeout(r,200));
   }
 }
 
-function parseOdds(m,bets){
+function pO(m,bets){
   for(const b of bets){
-    if(b.name==='Match Winner')for(const v of b.values){
-      if(v.value==='Home')m.odds['1']=f2(v.odd);
-      if(v.value==='Draw')m.odds['X']=f2(v.odd);
-      if(v.value==='Away')m.odds['2']=f2(v.odd);
-    }
-    if(b.name==='Double Chance')for(const v of b.values){
-      if(v.value==='Home/Draw')m.odds['1X']=f2(v.odd);
-      if(v.value==='Draw/Away')m.odds['X2']=f2(v.odd);
-      if(v.value==='Home/Away')m.odds['12']=f2(v.odd);
-    }
-    if(b.name==='Goals Over/Under')for(const v of b.values){
-      if(v.value==='Over 2.5')m.odds['Over']=f2(v.odd);
-      if(v.value==='Under 2.5')m.odds['Under']=f2(v.odd);
-    }
-    if(b.name==='Both Teams Score')for(const v of b.values){
-      if(v.value==='Yes')m.odds['GG']=f2(v.odd);
-      if(v.value==='No')m.odds['NG']=f2(v.odd);
-    }
-    if(b.name==='Goals Home')for(const v of b.values){
-      if(v.value==='Over 0.5')m.odds['Casa Over']=f2(v.odd);
-      if(v.value==='Under 0.5')m.odds['Casa Under']=f2(v.odd);
-    }
-    if(b.name==='Goals Away')for(const v of b.values){
-      if(v.value==='Over 0.5')m.odds['Trasf Over']=f2(v.odd);
-      if(v.value==='Under 0.5')m.odds['Trasf Under']=f2(v.odd);
-    }
-    if(b.name==='Exact Score')for(const v of b.values){
-      m.odds[v.value]=f2(v.odd);
-    }
+    if(b.name==='Match Winner')for(const v of b.values){if(v.value==='Home')m.odds['1']=f2(v.odd);if(v.value==='Draw')m.odds['X']=f2(v.odd);if(v.value==='Away')m.odds['2']=f2(v.odd);}
+    if(b.name==='Double Chance')for(const v of b.values){if(v.value==='Home/Draw')m.odds['1X']=f2(v.odd);if(v.value==='Draw/Away')m.odds['X2']=f2(v.odd);if(v.value==='Home/Away')m.odds['12']=f2(v.odd);}
+    if(b.name==='Goals Over/Under')for(const v of b.values){if(v.value==='Over 2.5')m.odds['Over']=f2(v.odd);if(v.value==='Under 2.5')m.odds['Under']=f2(v.odd);}
+    if(b.name==='Both Teams Score')for(const v of b.values){if(v.value==='Yes')m.odds['GG']=f2(v.odd);if(v.value==='No')m.odds['NG']=f2(v.odd);}
+    if(b.name==='Goals Home')for(const v of b.values){if(v.value==='Over 0.5')m.odds['CasaO']=f2(v.odd);if(v.value==='Under 0.5')m.odds['CasaU']=f2(v.odd);}
+    if(b.name==='Goals Away')for(const v of b.values){if(v.value==='Over 0.5')m.odds['TrasfO']=f2(v.odd);if(v.value==='Under 0.5')m.odds['TrasfU']=f2(v.odd);}
+    if(b.name==='Exact Score')for(const v of b.values)m.odds[v.value]=f2(v.odd);
   }
 }
 
-function f2(v){return +parseFloat(v).toFixed(2);}
+function f2(v){return+parseFloat(v).toFixed(2);}
 
-function estimateOdds(home,away){
-  const hs=strong(home),as=strong(away);
+function estO(h,a){
+  const hs=st(h),as=st(a);
   let h1,hX,h2;
-  if(hs&&!as){h1=1.65;hX=3.50;h2=5.00;}
-  else if(!hs&&as){h1=4.50;hX=3.50;h2=1.75;}
-  else if(hs&&as){h1=2.20;hX=3.20;h2=3.20;}
-  else{h1=2.50;hX=3.10;h2=2.80;}
+  if(hs&&!as){h1=1.65;hX=3.5;h2=5;}
+  else if(!hs&&as){h1=4.5;hX=3.5;h2=1.75;}
+  else if(hs&&as){h1=2.2;hX=3.2;h2=3.2;}
+  else{h1=2.5;hX=3.1;h2=2.8;}
   const v=()=>+(Math.random()*.3-.15).toFixed(2);
   const f=n=>+Math.max(1.05,n+v()).toFixed(2);
-  return{
-    '1':f(h1),'X':f(hX),'2':f(h2),
-    '1X':f(Math.min(h1,hX)*0.7),'X2':f(Math.min(hX,h2)*0.7),'12':f(Math.min(h1,h2)*0.8),
-    'Over':f(1.85),'Under':f(1.95),
-    'GG':f(1.80),'NG':f(2.00),
-    'Casa Over':f(1.70),'Casa Under':f(2.10),
-    'Trasf Over':f(1.85),'Trasf Under':f(1.95),
-    '1-0':f(6.5),'0-0':f(8.0),'1-1':f(6.0),'2-0':f(8.5),'0-1':f(9.0),
-    '2-1':f(9.0),'1-2':f(11.0),'2-2':f(12.0),'3-0':f(14.0),'0-2':f(15.0),
-    '0-3':f(20.0),'3-1':f(18.0),'1-3':f(22.0),'3-2':f(25.0),'2-3':f(28.0),
-  };
+  return{'1':f(h1),'X':f(hX),'2':f(h2),'1X':f(1.3),'X2':f(1.4),'12':f(1.5),'Over':f(1.85),'Under':f(1.95),'GG':f(1.8),'NG':f(2),'CasaO':f(1.7),'CasaU':f(2.1),'TrasfO':f(1.85),'TrasfU':f(1.95),'1-0':f(6.5),'0-0':f(8),'1-1':f(6),'2-0':f(8.5),'0-1':f(9),'2-1':f(9),'1-2':f(11),'2-2':f(12),'3-0':f(14),'0-2':f(15),'0-3':f(20),'3-1':f(18)};
 }
 
-function strong(n){return['juventus','inter','milan','napoli','atalanta','roma','lazio','fiorentina'].some(s=>(n||'').toLowerCase().includes(s));}
-function clean(n){return(n||'N/D').replace(/\b(FC|SSC|AC|AS|US|AFC|SSD|ASD|Calcio)\b\.?\s*/gi,'').trim();}
+function st(n){return['juventus','inter','milan','napoli','atalanta','roma','lazio','fiorentina'].some(s=>(n||'').toLowerCase().includes(s));}
+function cl(n){return(n||'N/D').replace(/\b(FC|SSC|AC|AS|US|AFC)\b\.?\s*/gi,'').trim();}
+function rst(){sel={};fis={};colB={};cols=[];pg=0;rLF();rM();rR();rc();}
 
-function reset(){selected={};fisse={};colBuilder={};columns=[];pg=0;renderLeagueFilter();renderMatches();renderRid();recompute();}
-
-// ── TABS ──
-function switchTab(t){
-  ['partite','riduzione','output','stampa'].forEach(k=>{
-    document.getElementById('page-'+k).style.display=k===t?'':'none';
-    document.getElementById('tab-'+k).classList.toggle('active',k===t);
+function sT(t){
+  ['p','r','o','s'].forEach(k=>{
+    document.getElementById('p'+k).style.display=k===t?'':'none';
+    document.getElementById('t'+k).classList.toggle('active',k===t);
   });
-  if(t==='stampa')renderPreview();
+  if(t==='s')rPv();
 }
 
-// ── LEAGUE FILTER ──
-function renderLeagueFilter(){
-  const leagues=['Tutte',...new Set(matches.map(m=>m.league))];
-  document.getElementById('lfilt').innerHTML=
-    leagues.map(l=>`<button class="lfbtn ${curFilter===l?'active':''}" onclick="setFilter('${l}')">${l}</button>`).join('')+
-    `<span style="margin-left:auto;font-size:12px;color:var(--muted);align-self:center">${vis().length} partite</span>`;
+function rLF(){
+  const ls=['Tutte',...new Set(M.map(m=>m.league))];
+  document.getElementById('lf').innerHTML=ls.map(l=>`<button class="lfbtn ${filt===l?'on':''}" onclick="sF('${l}')">${l}</button>`).join('')+`<span style="margin-left:auto;font-size:12px;color:var(--muted);align-self:center">${vi().length} partite</span>`;
 }
-function setFilter(l){curFilter=l;renderLeagueFilter();renderMatches();}
-function vis(){return curFilter==='Tutte'?matches:matches.filter(m=>m.league===curFilter);}
+function sF(l){filt=l;rLF();rM();}
+function vi(){return filt==='Tutte'?M:M.filter(m=>m.league===filt);}
 
-// ── MATCHES ──
-function renderMatches(){
-  const vm=vis();
-  const sc=Object.values(selected).filter(s=>s&&s.size>0).length;
-  const bn=document.getElementById('ibanner');
-  if(sc>0){bn.style.display='flex';document.getElementById('itext').textContent=`${sc} partite → ${integral.length.toLocaleString()} combinazioni`;}
+function rM(){
+  const vm=vi();
+  const sc=Object.values(sel).filter(s=>s&&s.size>0).length;
+  const bn=document.getElementById('ib');
+  if(sc>0){bn.style.display='flex';document.getElementById('it').textContent=sc+' partite → '+INT.length.toLocaleString()+' combinazioni';}
   else bn.style.display='none';
-  if(!vm.length){document.getElementById('mlist').innerHTML='<div class="empty"><div style="font-size:48px;margin-bottom:16px">⚽</div>Nessuna partita</div>';return;}
-
-  document.getElementById('mlist').innerHTML=vm.map(m=>{
-    const s=selected[m.id]||new Set();
+  if(!vm.length){document.getElementById('ml').innerHTML='<div class="empty">Nessuna partita</div>';return;}
+  document.getElementById('ml').innerHTML=vm.map(m=>{
+    const s=sel[m.id]||new Set();
     const bt=s.size===1?'singola':s.size===2?'doppia':s.size>=3?'multipla':'';
-    const groupsHtml=BET_GROUPS.map(g=>{
-      const btns=g.bets.filter(b=>m.odds[b]!=null).map(b=>
-        `<button class="obtn ${s.has(b)?'active':''}" onclick="togSel(${m.id},'${b}')">${b} <span style="font-weight:400;font-size:10px;opacity:.8">${m.odds[b]}</span></button>`
-      ).join('');
-      if(!btns)return'';
-      return`<div class="ogroup"><div class="ogroup-lbl">${g.label}</div><div class="orow">${btns}</div></div>`;
+    const gh=BG.map(g=>{
+      const bs=g.b.filter(b=>m.odds[b]!=null).map(b=>`<button class="obtn ${s.has(b)?'on':''}" onclick="tS(${m.id},'${b}')">${b} <span style="font-weight:400;font-size:10px;opacity:.8">${m.odds[b]}</span></button>`).join('');
+      if(!bs)return'';
+      return`<div class="ogrp"><div class="ogrplbl">${g.l}</div><div class="orow">${bs}</div></div>`;
     }).join('');
     return`<div class="match ${s.size?'sel':''}">
       <div class="mhdr">
-        <div><span class="lbadge" style="color:${m.leagueColor};background:${m.leagueColor}22;border:1px solid ${m.leagueColor}44">${m.league}</span><span style="font-weight:700;font-size:13px">${m.home} <span style="color:#555">vs</span> ${m.away}</span></div>
-        <div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:var(--muted)">${m.date} ${m.time}</span>${s.size?`<span class="bbadge">${bt}</span>`:''}</div>
-      </div>
-      ${groupsHtml}
-    </div>`;
+        <div><span class="lbdg" style="color:${m.lc};background:${m.lc}22;border:1px solid ${m.lc}44">${m.league}</span><span style="font-weight:700;font-size:13px">${m.home} <span style="color:#555">vs</span> ${m.away}</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:var(--muted)">${m.date} ${m.time}</span>${s.size?`<span class="bbdg">${bt}</span>`:''}</div>
+      </div>${gh}</div>`;
   }).join('');
 }
 
-function togSel(id,o){
-  if(!selected[id])selected[id]=new Set();
-  selected[id].has(o)?selected[id].delete(o):selected[id].add(o);
-  recompute();renderMatches();renderRid();
+function tS(id,o){
+  if(!sel[id])sel[id]=new Set();
+  sel[id].has(o)?sel[id].delete(o):sel[id].add(o);
+  rc();rM();rR();
 }
 
-// ── RIDUZIONE ──
-function renderRid(){
-  const ids=Object.keys(selected).filter(id=>selected[id]&&selected[id].size>0);
+function rR(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
   const nm='<div style="color:var(--muted);font-size:12px">Nessuna partita selezionata.</div>';
-  document.getElementById('fisseList').innerHTML=!ids.length?nm:ids.map(id=>{
-    const m=matches.find(m=>m.id===+id);if(!m)return'';
-    return`<div style="margin-bottom:8px"><div style="font-size:12px;color:#aaa;margin-bottom:4px">${m.home} vs ${m.away}</div><div class="orow">${[...selected[id]].map(o=>`<button class="obtn ${fisse[id]===o?'fissa':''}" onclick="togFissa(${id},'${o}')">📌 ${o} <span style="font-weight:400;font-size:10px">${m.odds[o]}</span></button>`).join('')}</div></div>`;}).join('');
-  document.getElementById('colBuild').innerHTML=!ids.length?nm:ids.map(id=>{
-    const m=matches.find(m=>m.id===+id);if(!m)return'';
-    const cb=colBuilder[id]||new Set();
-    return`<div style="margin-bottom:8px"><div style="font-size:12px;color:#aaa;margin-bottom:4px">${m.home} vs ${m.away}</div><div class="orow">${[...selected[id]].map(o=>`<button class="obtn ${cb.has(o)?'col':''}" onclick="togCB(${id},'${o}')">${o} <span style="font-weight:400;font-size:10px">${m.odds[o]}</span></button>`).join('')}</div></div>`;}).join('');
-  document.getElementById('colSec').style.display=columns.length?'':'none';
-  document.getElementById('colList').innerHTML=columns.map((c,i)=>{
-    const tags=c.selections.map(s=>`<span class="stag">${s.home.substring(0,3).toUpperCase()} <strong style="color:var(--blue)">${s.outcome}</strong></span>`).join('');
-    const errs=[0,1,2,3].map(n=>`<button class="errbtn ${c.maxErrors===n?'active':''}" onclick="setErr(${c.id},${n})">${n}</button>`).join('');
-    return`<div class="colit"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-weight:700;color:var(--blue);font-size:13px">COL${i+1}</span><button onclick="remCol(${c.id})" style="background:#3a1a1a;border:none;color:var(--red);border-radius:5px;padding:2px 8px;font-size:12px">✕</button></div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${tags}</div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Max errori:</span>${errs}</div></div>`;
+  document.getElementById('fl').innerHTML=!ids.length?nm:ids.map(id=>{
+    const m=M.find(m=>m.id===+id);if(!m)return'';
+    return`<div style="margin-bottom:8px"><div style="font-size:12px;color:#aaa;margin-bottom:4px">${m.home} vs ${m.away}</div><div class="orow">${[...sel[id]].map(o=>`<button class="obtn ${fis[id]===o?'fissa':''}" onclick="tF(${id},'${o}')">📌 ${o} <span style="font-weight:400;font-size:10px">${m.odds[o]}</span></button>`).join('')}</div></div>`;
+  }).join('');
+  document.getElementById('cb').innerHTML=!ids.length?nm:ids.map(id=>{
+    const m=M.find(m=>m.id===+id);if(!m)return'';
+    const cb2=colB[id]||new Set();
+    return`<div style="margin-bottom:8px"><div style="font-size:12px;color:#aaa;margin-bottom:4px">${m.home} vs ${m.away}</div><div class="orow">${[...sel[id]].map(o=>`<button class="obtn ${cb2.has(o)?'col':''}" onclick="tCB(${id},'${o}')">${o} <span style="font-weight:400;font-size:10px">${m.odds[o]}</span></button>`).join('')}</div></div>`;
+  }).join('');
+  document.getElementById('cs').style.display=cols.length?'':'none';
+  document.getElementById('cl').innerHTML=cols.map((c,i)=>{
+    const tgs=c.sel.map(s=>`<span class="stag">${s.h.substring(0,3).toUpperCase()} <strong style="color:var(--blue)">${s.o}</strong></span>`).join('');
+    const eb=[0,1,2,3].map(n=>`<button class="eb ${c.e===n?'on':''}" onclick="sE(${c.id},${n})">${n}</button>`).join('');
+    return`<div class="colit"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-weight:700;color:var(--blue);font-size:13px">COL${i+1}</span><button onclick="rC(${c.id})" style="background:#3a1a1a;border:none;color:var(--red);border-radius:5px;padding:2px 8px;font-size:12px">✕</button></div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${tgs}</div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Max errori:</span>${eb}</div></div>`;
   }).join('');
 }
 
-function togFissa(id,o){fisse[id]=fisse[id]===o?null:o;recompute();renderRid();}
-function togCB(id,o){if(!colBuilder[id])colBuilder[id]=new Set();colBuilder[id].has(o)?colBuilder[id].delete(o):colBuilder[id].add(o);renderRid();}
-function addColumn(){
+function tF(id,o){fis[id]=fis[id]===o?null:o;rc();rR();}
+function tCB(id,o){if(!colB[id])colB[id]=new Set();colB[id].has(o)?colB[id].delete(o):colB[id].add(o);rR();}
+function addCol(){
   const sels=[];
-  for(const[id,set]of Object.entries(colBuilder)){if(!set||!set.size)continue;const m=matches.find(m=>m.id===+id);if(!m)continue;for(const o of set)sels.push({matchId:+id,home:m.home,away:m.away,outcome:o,odds:m.odds[o]||1});}
+  for(const[id,set]of Object.entries(colB)){if(!set||!set.size)continue;const m=M.find(m=>m.id===+id);if(!m)continue;for(const o of set)sels.push({matchId:+id,h:m.home,a:m.away,o,q:m.odds[o]||1});}
   if(!sels.length)return;
-  columns.push({id:Date.now(),selections:sels,maxErrors:0});
-  colBuilder={};recompute();renderRid();
+  cols.push({id:Date.now(),sel:sels,e:0});
+  colB={};rc();rR();
 }
-function remCol(id){columns=columns.filter(c=>c.id!==id);recompute();renderRid();}
-function setErr(id,n){columns=columns.map(c=>c.id===id?{...c,maxErrors:n}:c);recompute();renderRid();}
+function rC(id){cols=cols.filter(c=>c.id!==id);rc();rR();}
+function sE(id,n){cols=cols.map(c=>c.id===id?Object.assign({},c,{e:n}):c);rc();rR();}
 
-// ── COMPUTE ──
-function cart(arrays){
-  if(!arrays.length)return[[]];
-  const[f,...r]=arrays;const rp=cart(r);const out=[];
-  for(const i of f)for(const c of rp)out.push([i,...c]);return out;
+function cart(a){if(!a.length)return[[]];const[f,...r]=a;const rp=cart(r);const o=[];for(const i of f)for(const c of rp)o.push([i,...c]);return o;}
+function bI(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);if(!ids.length)return[];
+  const arr=ids.map(id=>{const m=M.find(m=>m.id===+id);if(!m)return[];return[...sel[id]].map(o=>({mId:+id,h:m.home,a:m.away,o,q:m.odds[o]||1}));}).filter(a=>a.length);
+  return cart(arr).map(s=>({s,t:+s.reduce((a,x)=>a*x.q,1).toFixed(2)}));
 }
-function buildInt(){
-  const ids=Object.keys(selected).filter(id=>selected[id]&&selected[id].size>0);if(!ids.length)return[];
-  const arr=ids.map(id=>{const m=matches.find(m=>m.id===+id);if(!m)return[];return[...selected[id]].map(o=>({matchId:+id,home:m.home,away:m.away,outcome:o,odds:m.odds[o]||1}));}).filter(a=>a.length);
-  return cart(arr).map(sel=>({selections:sel,totalOdds:+sel.reduce((a,s)=>a*s.odds,1).toFixed(2)}));
-}
-function expCol(col){
+function exC(c){
   const SG=['1','X','2'];
   function rec(i,cur,e){
-    if(i===col.selections.length)return[cur];
-    const it=col.selections[i];const res=rec(i+1,[...cur,it],e);
-    if(e>0&&SG.includes(it.outcome)){for(const alt of SG){if(alt!==it.outcome){const m=matches.find(m=>m.id===it.matchId);if(m)res.push(...rec(i+1,[...cur,{...it,outcome:alt,odds:m.odds[alt]||1}],e-1));}}}
+    if(i===c.sel.length)return[cur];
+    const it=c.sel[i];const res=rec(i+1,[...cur,it],e);
+    if(e>0&&SG.includes(it.o)){for(const alt of SG){if(alt!==it.o){const m=M.find(m=>m.id===it.matchId);if(m)res.push(...rec(i+1,[...cur,Object.assign({},it,{o:alt,q:m.odds[alt]||1})],e-1));}}}
     return res;
   }
-  const all=rec(0,[],col.maxErrors);const seen=new Set();
-  return all.filter(r=>{const k=r.map(x=>`${x.matchId}:${x.outcome}`).join('|');return seen.has(k)?false:(seen.add(k),true);});
+  const all=rec(0,[],c.e);const seen=new Set();
+  return all.filter(r=>{const k=r.map(x=>x.matchId+':'+x.o).join('|');return seen.has(k)?false:(seen.add(k),true);});
 }
-function matchVar(s,v){return v.every(vx=>s.selections.some(sx=>sx.matchId===vx.matchId&&sx.outcome===vx.outcome));}
-function evalN(node,cv,s){
-  if(node.type==='col')return cv[node.idx].some(v=>matchVar(s,v));
-  if(node.type==='and')return evalN(node.left,cv,s)&&evalN(node.right,cv,s);
-  if(node.type==='or')return evalN(node.left,cv,s)||evalN(node.right,cv,s);
+function mV(s,v){return v.every(vx=>s.s.some(sx=>sx.mId===vx.matchId&&sx.o===vx.o));}
+function evN(n,cv,s){
+  if(n.type==='col')return cv[n.idx].some(v=>mV(s,v));
+  if(n.type==='and')return evN(n.left,cv,s)&&evN(n.right,cv,s);
+  if(n.type==='or')return evN(n.left,cv,s)||evN(n.right,cv,s);
   return false;
 }
-function parseLg(inp){
-  const toks=inp.toUpperCase().replace(/\(/g,' ( ').replace(/\)/g,' ) ').split(/\s+/).filter(Boolean);
+function pL(inp){
+  const tk=inp.toUpperCase().replace(/\(/g,' ( ').replace(/\)/g,' ) ').split(/\s+/).filter(Boolean);
   let p=0;
-  function pe(){let l=pp();while(p<toks.length&&(toks[p]==='AND'||toks[p]==='OR')){const op=toks[p++];l={type:op.toLowerCase(),left:l,right:pp()};}return l;}
-  function pp(){if(toks[p]==='('){p++;const e=pe();if(toks[p]===')') p++;return e;}const t=toks[p++];const m=t&&t.match(/^COL(\d+)$/);if(m){const idx=+m[1]-1;if(idx>=0&&idx<columns.length)return{type:'col',idx};}return null;}
-  try{return pe();}catch{return null;}
+  function pe(){let l=pp();while(p<tk.length&&(tk[p]==='AND'||tk[p]==='OR')){const op=tk[p++];l={type:op.toLowerCase(),left:l,right:pp()};}return l;}
+  function pp(){if(tk[p]==='('){p++;const e=pe();if(tk[p]===')') p++;return e;}const t=tk[p++];const m=t&&t.match(/^COL(\d+)$/);if(m){const i=+m[1]-1;if(i>=0&&i<cols.length)return{type:'col',idx:i};}return null;}
+  try{return pe();}catch(e){return null;}
 }
-function recompute(){
-  integral=buildInt();
-  const fe=Object.entries(fisse).filter(([,o])=>o);
-  afterFisse=fe.length?integral.filter(s=>fe.every(([id,o])=>s.selections.some(x=>x.matchId===+id&&x.outcome===o))):integral;
-  if(!columns.length){afterCols=afterFisse;}else{
-    const cv=columns.map(c=>expCol(c));
-    const ls=(document.getElementById('logicInp')||{}).value||'';
-    const tree=ls.trim()?parseLg(ls.trim()):null;
-    afterCols=tree?afterFisse.filter(s=>evalN(tree,cv,s)):afterFisse.filter(s=>cv.some(vs=>vs.some(v=>matchVar(s,v))));
+function rc(){
+  INT=bI();
+  const fe=Object.entries(fis).filter(([,o])=>o);
+  aF=fe.length?INT.filter(s=>fe.every(([id,o])=>s.s.some(x=>x.mId===+id&&x.o===o))):INT;
+  if(!cols.length){aC=aF;}else{
+    const cv=cols.map(c=>exC(c));
+    const ls=document.getElementById('li')?document.getElementById('li').value:'';
+    const tree=ls.trim()?pL(ls.trim()):null;
+    aC=tree?aF.filter(s=>evN(tree,cv,s)):aF.filter(s=>cv.some(vs=>vs.some(v=>mV(s,v))));
   }
-  const mn=parseFloat((document.getElementById('minO')||{}).value||'')||0;
-  const mx=parseFloat((document.getElementById('maxO')||{}).value||'')||Infinity;
-  filtered=afterCols.filter(s=>s.totalOdds>=mn&&s.totalOdds<=mx);
-  document.getElementById('s0').textContent=integral.length.toLocaleString();
-  document.getElementById('s1').textContent=afterFisse.length.toLocaleString();
-  document.getElementById('s2').textContent=afterCols.length.toLocaleString();
-  const hb=document.getElementById('hbadge');hb.style.display=integral.length>0?'flex':'none';
-  document.getElementById('icnt').textContent=integral.length.toLocaleString();
-  document.getElementById('fcnt').textContent=filtered.length.toLocaleString();
-  const sc=Object.values(selected).filter(s=>s&&s.size>0).length;
-  const bn=document.getElementById('ibanner');
-  if(sc>0){bn.style.display='flex';document.getElementById('itext').textContent=`${sc} partite → ${integral.length.toLocaleString()} combinazioni`;}
+  const mn=parseFloat(document.getElementById('mn')?document.getElementById('mn').value:'')||0;
+  const mx=parseFloat(document.getElementById('mx')?document.getElementById('mx').value:'')||Infinity;
+  FIL=aC.filter(s=>s.t>=mn&&s.t<=mx);
+  document.getElementById('s0').textContent=INT.length.toLocaleString();
+  document.getElementById('s1').textContent=aF.length.toLocaleString();
+  document.getElementById('s2').textContent=aC.length.toLocaleString();
+  const hb=document.getElementById('hbdg');hb.style.display=INT.length>0?'flex':'none';
+  document.getElementById('ic').textContent=INT.length.toLocaleString();
+  document.getElementById('fc').textContent=FIL.length.toLocaleString();
+  const sc=Object.values(sel).filter(s=>s&&s.size>0).length;
+  const bn=document.getElementById('ib');
+  if(sc>0){bn.style.display='flex';document.getElementById('it').textContent=sc+' partite → '+INT.length.toLocaleString()+' combinazioni';}
   else bn.style.display='none';
-  renderOutput();
+  rO();
 }
 
-function changeCost(d){costPerBet=Math.max(0.5,+(costPerBet+d).toFixed(1));renderOutput();}
-function renderOutput(){
-  const oe=document.getElementById('outEmpty'),oc=document.getElementById('outContent');
-  if(!filtered.length){oe.style.display='';oc.style.display='none';return;}
+function cc(d){cost=Math.max(0.5,+(cost+d).toFixed(1));rO();}
+function rO(){
+  const oe=document.getElementById('oe'),oc=document.getElementById('oc');
+  if(!FIL.length){oe.style.display='';oc.style.display='none';return;}
   oe.style.display='none';oc.style.display='';
-  const minQ=Math.min(...filtered.map(s=>s.totalOdds)).toFixed(2);
-  const maxQ=Math.max(...filtered.map(s=>s.totalOdds)).toFixed(2);
-  document.getElementById('sgrid').innerHTML=[
-    {l:'Schedine',v:filtered.length.toLocaleString(),c:'var(--green)'},
-    {l:'Costo totale',v:`€${(filtered.length*costPerBet).toFixed(2)}`,c:'var(--gold)'},
-    {l:'Quota min',v:minQ,c:'var(--blue)'},{l:'Quota max',v:maxQ,c:'#d455a4'},
-  ].map(({l,v,c})=>`<div class="scard"><div class="sval" style="color:${c}">${v}</div><div class="slbl">${l}</div></div>`).join('');
-  document.getElementById('costLbl').textContent=`€${costPerBet.toFixed(2)}`;
-  const tp=Math.ceil(filtered.length/PS);pg=Math.min(pg,Math.max(0,tp-1));
-  const sl=filtered.slice(pg*PS,(pg+1)*PS);
-  document.getElementById('pinfo').textContent=`${pg*PS+1}–${Math.min((pg+1)*PS,filtered.length)} di ${filtered.length.toLocaleString()}`;
-  document.getElementById('schList').innerHTML=sl.map(s=>{
-    const tags=s.selections.map(x=>`<span class="stag">${x.home.substring(0,3).toUpperCase()} <strong style="color:var(--green)">${x.outcome}</strong></span>`).join('');
-    return`<div class="sched"><div style="display:flex;flex-wrap:wrap;gap:4px">${tags}</div><div style="text-align:right"><div style="font-weight:700;color:var(--green);font-size:12px">x${s.totalOdds}</div><div style="font-size:10px;color:var(--muted)">€${(s.totalOdds*costPerBet).toFixed(2)}</div></div></div>`;
+  const mq=Math.min(...FIL.map(s=>s.t)).toFixed(2),xq=Math.max(...FIL.map(s=>s.t)).toFixed(2);
+  document.getElementById('sg').innerHTML=[
+    {l:'Schedine',v:FIL.length.toLocaleString(),c:'var(--green)'},
+    {l:'Costo',v:'€'+(FIL.length*cost).toFixed(2),c:'var(--gold)'},
+    {l:'Q.min',v:mq,c:'var(--blue)'},
+    {l:'Q.max',v:xq,c:'#d455a4'},
+  ].map(function(x){return'<div class="sc"><div class="sv" style="color:'+x.c+'">'+x.v+'</div><div class="sl">'+x.l+'</div></div>';}).join('');
+  document.getElementById('cl2').textContent='€'+cost.toFixed(2);
+  const tp=Math.ceil(FIL.length/PS);pg=Math.min(pg,Math.max(0,tp-1));
+  const sl2=FIL.slice(pg*PS,(pg+1)*PS);
+  document.getElementById('pi').textContent=(pg*PS+1)+'–'+Math.min((pg+1)*PS,FIL.length)+' di '+FIL.length.toLocaleString();
+  document.getElementById('sl').innerHTML=sl2.map(function(s){
+    const tgs=s.s.map(function(x){return'<span class="stag">'+x.h.substring(0,3).toUpperCase()+' <strong style="color:var(--green)">'+x.o+'</strong></span>';}).join('');
+    return'<div class="shed"><div style="display:flex;flex-wrap:wrap;gap:4px">'+tgs+'</div><div style="text-align:right"><div style="font-weight:700;color:var(--green);font-size:12px">x'+s.t+'</div><div style="font-size:10px;color:var(--muted)">€'+(s.t*cost).toFixed(2)+'</div></div></div>';
   }).join('');
-  document.getElementById('pgn').innerHTML=tp>1?`
-    <button class="pgbtn" onclick="pg=0;renderOutput()" ${pg===0?'disabled':''}>«</button>
-    <button class="pgbtn" onclick="pg--;renderOutput()" ${pg===0?'disabled':''}>‹</button>
-    <span style="padding:5px 12px;color:var(--muted);font-size:12px">${pg+1} / ${tp}</span>
-    <button class="pgbtn" onclick="pg++;renderOutput()" ${pg===tp-1?'disabled':''}>›</button>
-    <button class="pgbtn" onclick="pg=${tp-1};renderOutput()" ${pg===tp-1?'disabled':''}>»</button>`:'';
+  document.getElementById('pn').innerHTML=tp>1?
+    '<button class="pgb" onclick="pg=0;rO()" '+(pg===0?'disabled':'')+'>«</button>'+
+    '<button class="pgb" onclick="pg--;rO()" '+(pg===0?'disabled':'')+'>‹</button>'+
+    '<span style="padding:5px 12px;color:var(--muted);font-size:12px">'+(pg+1)+' / '+tp+'</span>'+
+    '<button class="pgb" onclick="pg++;rO()" '+(pg===tp-1?'disabled':'')+'>›</button>'+
+    '<button class="pgb" onclick="pg='+(tp-1)+';rO()" '+(pg===tp-1?'disabled':'')+'>»</button>':'';
 }
 
-function renderPreview(){
-  const ids=Object.keys(selected).filter(id=>selected[id]&&selected[id].size>0);
-  document.getElementById('ppreview').innerHTML=!ids.length?'<span style="color:var(--muted)">Nessun dato.</span>':`
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Integrale:</strong> ${ids.length} partite, ${integral.length.toLocaleString()} combinazioni</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--gold)">Fisse:</strong> ${Object.entries(fisse).filter(([,o])=>o).map(([id,o])=>{const m=matches.find(m=>m.id===+id);return m?`${m.home} ${o}`:''}).filter(Boolean).join(', ')||'Nessuna'}</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--blue)">Colonne:</strong> ${columns.length||'Nessuna'}</div>
-    <div><strong style="color:var(--green)">Schedine:</strong> ${filtered.length.toLocaleString()} — €${(filtered.length*costPerBet).toFixed(2)}</div>`;
+function rPv(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
+  document.getElementById('pv').innerHTML=!ids.length?'Nessun dato.':
+    '<div style="margin-bottom:8px"><strong style="color:var(--green)">Integrale:</strong> '+ids.length+' partite, '+INT.length.toLocaleString()+' combinazioni</div>'+
+    '<div style="margin-bottom:8px"><strong style="color:var(--gold)">Fisse:</strong> '+( Object.entries(fis).filter(function(x){return x[1];}).map(function(x){const m=M.find(function(m){return m.id===+x[0];});return m?m.home+' '+x[1]:'';}).filter(Boolean).join(', ')||'Nessuna')+'</div>'+
+    '<div><strong style="color:var(--green)">Schedine:</strong> '+FIL.length.toLocaleString()+' — €'+(FIL.length*cost).toFixed(2)+'</div>';
 }
 
-function doPrint(type){
-  const ids=Object.keys(selected).filter(id=>selected[id]&&selected[id].size>0);
-  let h=`<style>body{font-family:'Segoe UI',sans-serif;font-size:11px;color:#000;margin:15px}h1{font-size:16px;border-bottom:2px solid #333;padding-bottom:5px;margin-bottom:12px}h2{font-size:13px;margin:12px 0 6px}.m{border:1px solid #ccc;border-radius:4px;padding:6px;margin-bottom:5px}.tag{display:inline-block;border:1px solid #999;border-radius:3px;padding:1px 5px;margin:1px;font-size:10px}.cb{border:1px solid #aaa;border-radius:4px;padding:6px;margin-bottom:6px;background:#f9f9f9}table{width:100%;border-collapse:collapse}th{background:#333;color:#fff;padding:5px;font-size:11px;text-align:left}td{padding:4px 5px;border-bottom:1px solid #eee;font-size:10px}.pb{page-break-after:always}</style>`;
-  h+=`<h1>⚽ Sistema Scommesse — ${new Date().toLocaleDateString('it-IT')}</h1>`;
-  if(type==='all'||type==='integrale'){
-    h+=`<div class="${type==='all'?'pb':''}"><h2>📋 SISTEMA INTEGRALE — ${ids.length} partite, ${integral.length.toLocaleString()} combinazioni</h2>`;
-    ids.forEach(id=>{const m=matches.find(m=>m.id===+id);if(!m)return;const outs=[...selected[id]];
-      h+=`<div class="m"><strong>${m.league} — ${m.home} vs ${m.away}</strong> (${m.date} ${m.time})<br>${outs.map(o=>`<span class="tag"><strong>${o}</strong> @${m.odds[o]}</span>`).join(' ')}</div>`;});
+function dP(type){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
+  let h='<style>body{font-family:\'Segoe UI\',sans-serif;font-size:11px;color:#000;margin:15px}h1{font-size:16px;border-bottom:2px solid #333;padding-bottom:5px;margin-bottom:12px}h2{font-size:13px;margin:12px 0 6px}.m{border:1px solid #ccc;padding:5px;margin-bottom:4px}.tag{display:inline-block;border:1px solid #999;padding:1px 5px;margin:1px;font-size:10px}table{width:100%;border-collapse:collapse}th{background:#333;color:#fff;padding:5px;text-align:left}td{padding:3px 5px;border-bottom:1px solid #eee}.pb{page-break-after:always}</style>';
+  h+='<h1>⚽ Sistema Scommesse — '+new Date().toLocaleDateString('it-IT')+'</h1>';
+  if(type==='all'||type==='i'){
+    h+='<div class="'+(type==='all'?'pb':'')+'"><h2>SISTEMA INTEGRALE — '+ids.length+' partite, '+INT.length.toLocaleString()+' combinazioni</h2>';
+    ids.forEach(function(id){const m=M.find(function(m){return m.id===+id;});if(!m)return;const outs=[...sel[id]];h+='<div class="m"><strong>'+m.league+' — '+m.home+' vs '+m.away+'</strong> ('+m.date+' '+m.time+')<br>'+outs.map(function(o){return'<span class="tag"><strong>'+o+'</strong> @'+m.odds[o]+'</span>';}).join(' ')+'</div>';});
     h+='</div>';
   }
-  if(type==='all'||type==='condizioni'){
-    h+=`<div class="${type==='all'?'pb':''}"><h2>🔧 CONDIZIONI DI RIDUZIONE</h2>`;
-    const fl=Object.entries(fisse).filter(([,o])=>o);
-    h+=`<h3 style="font-size:12px;margin:8px 0 4px">📌 Fisse (${fl.length})</h3>`;
-    fl.length?fl.forEach(([id,o])=>{const m=matches.find(m=>m.id===+id);if(m)h+=`<div class="m">${m.home} vs ${m.away} → <strong>${o}</strong> @${m.odds[o]}</div>`;}):h+='<p style="color:#888">Nessuna.</p>';
-    h+=`<h3 style="font-size:12px;margin:10px 0 4px">🔧 Colonne (${columns.length})</h3>`;
-    columns.length?(columns.forEach((c,i)=>{h+=`<div class="cb"><strong>COL${i+1}</strong> — Max errori: ${c.maxErrors}<br>${c.selections.map(s=>`<span class="tag">${s.home} <strong>${s.outcome}</strong> @${s.odds}</span>`).join(' ')}</div>`;}),h+=`<p><strong>Logica:</strong> ${(document.getElementById('logicInp')||{}).value||'OR di tutte'}</p>`):h+='<p style="color:#888">Nessuna.</p>';
-    h+=`<p style="margin-top:10px"><strong>Riduzione:</strong> ${integral.length.toLocaleString()} → ${afterFisse.length.toLocaleString()} → ${afterCols.length.toLocaleString()}</p></div>`;
+  if(type==='all'||type==='c'){
+    const fl=Object.entries(fis).filter(function(x){return x[1];});
+    h+='<div class="'+(type==='all'?'pb':'')+'"><h2>CONDIZIONI DI RIDUZIONE</h2><h3>Fisse ('+fl.length+')</h3>';
+    fl.length?fl.forEach(function(x){const m=M.find(function(m){return m.id===+x[0];});if(m)h+='<div class="m">'+m.home+' vs '+m.away+' → <strong>'+x[1]+'</strong> @'+m.odds[x[1]]+'</div>';}):h+='<p>Nessuna.</p>';
+    h+='<h3>Colonne ('+cols.length+')</h3>';
+    cols.length?cols.forEach(function(c,i){h+='<div class="m"><strong>COL'+(i+1)+'</strong> — Errori: '+c.e+'<br>'+c.sel.map(function(s){return'<span class="tag">'+s.h+' <strong>'+s.o+'</strong> @'+s.q+'</span>';}).join(' ')+'</div>';}):h+='<p>Nessuna.</p>';
+    h+='<p>Riduzione: '+INT.length.toLocaleString()+' → '+aF.length.toLocaleString()+' → '+aC.length.toLocaleString()+'</p></div>';
   }
-  if(type==='all'||type==='schedine'){
-    const tp=filtered.slice(0,500);
-    h+=`<div><h2>📊 SCHEDINE — ${filtered.length.toLocaleString()} schedine — €${costPerBet.toFixed(2)}/cad — Totale: €${(filtered.length*costPerBet).toFixed(2)}</h2>`;
-    h+=`<table><tr><th>#</th><th>Selezioni</th><th>Quota</th><th>Vincita pot.</th></tr>`;
-    tp.forEach((s,i)=>{h+=`<tr><td>${i+1}</td><td>${s.selections.map(x=>`${x.home.substring(0,3).toUpperCase()} ${x.outcome}`).join(' | ')}</td><td>x${s.totalOdds}</td><td>€${(s.totalOdds*costPerBet).toFixed(2)}</td></tr>`;});
-    h+='</table>';
-    if(filtered.length>500)h+=`<p style="color:#888;font-size:10px">Prime 500 di ${filtered.length.toLocaleString()}.</p>`;
-    h+='</div>';
+  if(type==='all'||type==='s'){
+    const tp=FIL.slice(0,500);
+    h+='<div><h2>SCHEDINE — '+FIL.length.toLocaleString()+' — €'+cost+'/cad — €'+(FIL.length*cost).toFixed(2)+' totale</h2><table><tr><th>#</th><th>Selezioni</th><th>Quota</th><th>Vincita</th></tr>';
+    tp.forEach(function(s,i){h+='<tr><td>'+(i+1)+'</td><td>'+s.s.map(function(x){return x.h.substring(0,3).toUpperCase()+' '+x.o;}).join(' | ')+'</td><td>x'+s.t+'</td><td>€'+(s.t*cost).toFixed(2)+'</td></tr>';});
+    if(FIL.length>500)h+='<tr><td colspan="4" style="color:#888">Prime 500 di '+FIL.length.toLocaleString()+'</td></tr>';
+    h+='</table></div>';
   }
   const w=window.open('','_blank');
   w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Stampa</title></head><body>'+h+'</body></html>');
-  w.document.close();w.focus();setTimeout(()=>w.print(),400);
+  w.document.close();w.focus();setTimeout(function(){w.print();},400);
 }
 </script>
 </body>
