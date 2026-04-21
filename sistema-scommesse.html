@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema Scommesse Pro</title>
+<title>Win System by Andrea Giorgio</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#0a1520;color:#e0e0e0;min-height:100vh}
@@ -193,6 +193,32 @@ input,select{font-family:inherit;cursor:text}
 .print-btn{padding:10px 16px;border-radius:8px;border:1px solid #3a5a8a;background:#1a2a4a;color:#8ab4f8;font-weight:700;font-size:12px;margin-right:8px;margin-bottom:8px}
 .print-btn:hover{background:#2a3a5a}
 
+/* STATS PANEL */
+.stats-panel{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:1000;overflow-y:auto;padding:16px}
+.stats-inner{max-width:900px;margin:0 auto;background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden}
+.stats-header{background:linear-gradient(135deg,#0d1f35,#162030);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.stats-title{font-weight:800;font-size:16px;color:var(--text)}
+.stats-close{background:rgba(244,67,54,.15);border:1px solid rgba(244,67,54,.3);color:var(--red);border-radius:8px;padding:8px 16px;font-weight:700;font-size:13px}
+.stats-body{padding:16px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.stats-grid{grid-template-columns:1fr}}
+.team-stats{background:var(--card2);border-radius:10px;padding:14px;border:1px solid var(--border)}
+.team-title{font-weight:800;font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.form-row{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.form-badge{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px}
+.form-W{background:rgba(76,175,80,.3);color:var(--green);border:1px solid rgba(76,175,80,.4)}
+.form-D{background:rgba(255,193,7,.3);color:var(--gold);border:1px solid rgba(255,193,7,.4)}
+.form-L{background:rgba(244,67,54,.3);color:var(--red);border:1px solid rgba(244,67,54,.4)}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px}
+.result-row:last-child{border-bottom:none}
+.result-score{font-weight:700;padding:2px 8px;border-radius:5px;font-size:12px}
+.result-W{background:rgba(76,175,80,.2);color:var(--green)}
+.result-D{background:rgba(255,193,7,.2);color:var(--gold)}
+.result-L{background:rgba(244,67,54,.2);color:var(--red)}
+.freq-badge{background:rgba(0,188,212,.15);border:1px solid rgba(0,188,212,.3);color:var(--cyan);padding:4px 12px;border-radius:8px;font-weight:700;font-size:13px;margin-bottom:10px;display:inline-block}
+.standing-mini{font-size:11px;color:var(--muted);margin-top:8px;padding:6px 10px;background:rgba(255,255,255,.03);border-radius:6px}
+.standing-pos{font-weight:800;font-size:18px;color:var(--gold)}
+.h2h-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
 /* DISC */
 .disc{margin:16px;padding:10px;background:#1a1500;border-radius:8px;border:1px solid #3a3000;font-size:10px;color:#888;text-align:center}
 
@@ -203,14 +229,34 @@ input,select{font-family:inherit;cursor:text}
 </head>
 <body>
 
+<!-- STATS PANEL (overlay) -->
+<div id="stats-panel" class="stats-panel" style="display:none">
+  <div class="stats-inner">
+    <div class="stats-header">
+      <div class="stats-title" id="stats-match-title">Statistiche</div>
+      <button class="stats-close" onclick="closeStats()">✕ Chiudi e continua</button>
+    </div>
+    <div class="stats-body">
+      <div id="stats-loading" style="text-align:center;padding:40px;color:var(--muted)">
+        <div style="font-size:36px;margin-bottom:12px">⏳</div>
+        Caricamento statistiche...
+      </div>
+      <div id="stats-content" style="display:none">
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="h2h-section" id="h2h-section"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- HEADER -->
 <div class="header">
   <div class="hrow">
     <div class="logo">
       <span class="logo-icon">⚽</span>
       <div>
-        <div class="logo-text">BetSystem Pro</div>
-        <div class="logo-sub">Sistema Scommesse Italia</div>
+        <div class="logo-text">Win System</div>
+        <div class="logo-sub">by Andrea Giorgio</div>
       </div>
     </div>
     <div id="srv" class="srv-badge srv-ok"><div class="srv-dot"></div><span>Online</span></div>
@@ -499,6 +545,8 @@ async function loadMatches(){
             round:f.league.round||'',
             home:cl(f.teams.home.name),
             away:cl(f.teams.away.name),
+            homeId:f.teams.home.id,
+            awayId:f.teams.away.id,
             date:dt.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'}),
             time:dt.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}),
             odds:estO(f.teams.home.name,f.teams.away.name)
@@ -602,6 +650,7 @@ function rM(){
           ${s.size?`<span style="background:rgba(76,175,80,.15);color:var(--green);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">${bt}</span>`:''}
         </div>
         <div class="match-info">
+          <button class="filter-btn" style="padding:4px 10px;font-size:11px;border-color:var(--cyan);color:var(--cyan)" onclick="openStats(${m.id},${m.leagueId},'${m.home}','${m.away}',${JSON.stringify(m.homeId||0)},${JSON.stringify(m.awayId||0)})">📊 Stats</button>
           <span class="round-badge">${m.round.split('-').pop().trim()}</span>
           <span class="match-datetime">📅 ${m.date} 🕐 ${m.time}</span>
         </div>
