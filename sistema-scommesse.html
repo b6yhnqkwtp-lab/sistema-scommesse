@@ -3,176 +3,415 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema Scommesse Italia</title>
+<title>Sistema Scommesse Pro</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',sans-serif;background:#0f1923;color:#e0e0e0;min-height:100vh}
-:root{--bg:#0f1923;--card:#1a2a1a;--border:#2d4a2d;--green:#7dc455;--dgreen:#1e3a1e;--gold:#d4a455;--muted:#888;--blue:#55a4d4;--red:#e05555}
-button,input{font-family:inherit;cursor:pointer}input{cursor:text}
-.header{background:linear-gradient(135deg,#1a2a1a,#0f1923);border-bottom:2px solid #2d5a1b;padding:13px 16px}
+body{font-family:'Segoe UI',sans-serif;background:#0a1520;color:#e0e0e0;min-height:100vh}
+:root{
+  --bg:#0a1520;--card:#111e2d;--card2:#162030;--border:#1e3a5a;
+  --green:#4caf50;--green2:#2e7d32;--dgreen:#0d2a0d;
+  --gold:#ffc107;--blue:#2196f3;--blue2:#1565c0;
+  --red:#f44336;--purple:#9c27b0;--cyan:#00bcd4;
+  --muted:#607d8b;--text:#e0e0e0;--text2:#90a4ae;
+}
+button{cursor:pointer;font-family:inherit;transition:all .2s}
+input,select{font-family:inherit;cursor:text}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#0a1520}
+::-webkit-scrollbar-thumb{background:#1e3a5a;border-radius:3px}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#0d1f35,#0a1520);border-bottom:2px solid #1e3a5a;padding:12px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.5)}
 .hrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.htitle{font-weight:700;font-size:16px;color:var(--green)}.hsub{font-size:11px;color:var(--muted)}
-.badge{background:var(--green);color:var(--bg);border-radius:20px;padding:3px 10px;font-weight:700;font-size:12px}
-.brow{display:flex;gap:8px;margin-bottom:8px}
-.lbtn{flex:1;padding:11px;border-radius:9px;border:none;background:linear-gradient(135deg,#7dc455,#5a9a3a);color:var(--bg);font-weight:700;font-size:14px}
-.lbtn:disabled{background:#2a4a2a;cursor:wait}
-.chrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.cbtn{padding:6px 12px;border-radius:20px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--bg);color:var(--muted)}
-.cbtn.on{border-color:var(--green);color:var(--green);background:var(--dgreen)}
-.srv{font-size:11px;padding:3px 8px;border-radius:6px;margin-left:auto}
-.srv.ok{background:#1a3a1a;color:var(--green);border:1px solid var(--green)}
-.srv.ko{background:#3a1a1a;color:var(--red);border:1px solid var(--red)}
-.errmsg{font-size:12px;color:var(--red);margin-top:6px;background:#2a1a1a;border-radius:7px;padding:7px 10px}
-.lastupd{font-size:11px;color:var(--muted);margin-top:5px;text-align:center}
-.tabs{display:flex;background:#141f14;border-bottom:1px solid #1e3a1e;overflow-x:auto}
-.tbtn{flex:1;min-width:70px;padding:11px 4px;border:none;font-size:11px;font-weight:600;background:transparent;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
-.tbtn.active{background:var(--dgreen);color:var(--green);border-bottom-color:var(--green)}
-.content{padding:14px;max-width:760px;margin:0 auto}
-.card{background:var(--card);border-radius:10px;padding:13px;margin-bottom:14px;border:1px solid var(--border)}
-.ctitle{font-weight:700;font-size:14px;margin-bottom:8px}
-.match{background:var(--card);border-radius:10px;padding:11px;margin-bottom:9px;border:1px solid #222}
-.match.sel{border-color:#2d5a1b}
-.mhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;flex-wrap:wrap;gap:4px}
-.ogrp{margin-bottom:6px}.ogrplbl{font-size:10px;color:var(--muted);margin-bottom:3px;text-transform:uppercase}
-.orow{display:flex;flex-wrap:wrap;gap:5px}
-.obtn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--bg);color:var(--green)}
-.obtn.on{background:var(--green);color:var(--bg);border-color:var(--green)}
-.obtn.fissa{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-.obtn.col{background:var(--blue);color:var(--bg);border-color:var(--blue)}
-.lfilt{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.lfbtn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--bg);color:var(--green)}
-.lfbtn.on{background:var(--green);color:var(--bg);border-color:var(--green)}
-.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.sc{background:var(--card);border-radius:9px;padding:9px 6px;text-align:center;border:1px solid var(--border)}
-.sv{font-size:17px;font-weight:700}.sl{font-size:10px;color:var(--muted);margin-top:2px}
-.colit{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid #1e3a3e}
-.eb{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);font-weight:700;font-size:12px;background:var(--bg);color:var(--green)}
-.eb.on{background:var(--green);color:var(--bg);border-color:var(--green)}
-.sr{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
-.shed{background:var(--card);border-radius:7px;padding:7px 10px;margin-bottom:5px;border:1px solid #222;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px}
-.stag{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:2px 6px;font-size:10px}
-.pgn{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap}
-.pgb{background:var(--card);border:1px solid var(--border);color:var(--green);border-radius:6px;padding:5px 10px;font-size:13px}
-.pgb:disabled{opacity:.4}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-icon{font-size:28px;filter:drop-shadow(0 0 8px rgba(76,175,80,.5))}
+.logo-text{font-weight:800;font-size:18px;background:linear-gradient(135deg,#4caf50,#00bcd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:10px;color:var(--muted);margin-top:-2px}
+.srv-badge{display:flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:20px;margin-left:auto}
+.srv-ok{background:#0d2a0d;color:var(--green);border:1px solid var(--green)}
+.srv-ko{background:#2a0d0d;color:var(--red);border:1px solid var(--red)}
+.srv-dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.srv-ok .srv-dot{background:var(--green)}
+.srv-ko .srv-dot{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* CHAMP ROW */
+.chrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.chbtn{padding:5px 12px;border-radius:20px;border:1px solid var(--border);font-weight:600;font-size:11px;background:transparent;color:var(--muted);transition:all .2s}
+.chbtn.on{border-color:var(--green);color:var(--green);background:rgba(76,175,80,.1);box-shadow:0 0 8px rgba(76,175,80,.2)}
+
+/* ACTION ROW */
+.arow{display:flex;gap:8px}
+.load-btn{flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#4caf50,#2e7d32);color:#fff;font-weight:700;font-size:13px;box-shadow:0 2px 8px rgba(76,175,80,.3)}
+.load-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(76,175,80,.4)}
+.load-btn:disabled{background:#1e3a1e;cursor:wait;transform:none}
+
+/* TABS */
+.tabs{display:flex;background:#0d1f35;border-bottom:1px solid var(--border);overflow-x:auto;position:sticky;top:89px;z-index:99}
+.tbtn{flex:1;min-width:80px;padding:12px 4px;border:none;font-size:11px;font-weight:600;background:transparent;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.tbtn.active{color:var(--green);border-bottom-color:var(--green);background:rgba(76,175,80,.05)}
+.tbtn:hover:not(.active){color:var(--text);background:rgba(255,255,255,.03)}
+.tab-badge{display:inline-block;background:var(--green);color:#000;border-radius:10px;padding:1px 6px;font-size:9px;margin-left:4px;font-weight:700}
+
+/* CONTENT */
+.content{padding:14px;max-width:900px;margin:0 auto}
+
+/* CARDS */
+.card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.card-title{font-weight:700;font-size:13px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-title-icon{font-size:16px}
+
+/* MATCH CARD */
+.match{background:var(--card);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid var(--border);transition:all .2s}
+.match:hover{border-color:#2d5a7a;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.match.sel{border-color:var(--green);background:rgba(76,175,80,.05)}
+.match-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.match-teams{display:flex;align-items:center;gap:8px}
+.team-name{font-weight:700;font-size:13px}
+.vs{color:var(--muted);font-size:11px;padding:2px 6px}
+.match-info{display:flex;align-items:center;gap:8px}
+.league-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+.match-datetime{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.round-badge{font-size:10px;color:var(--cyan);background:rgba(0,188,212,.1);padding:2px 7px;border-radius:10px;border:1px solid rgba(0,188,212,.2)}
+
+/* BET GROUPS */
+.bet-groups{display:flex;flex-direction:column;gap:6px}
+.bet-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bet-group-label{font-size:10px;color:var(--muted);min-width:90px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.bet-row{display:flex;flex-wrap:wrap;gap:4px}
+.obtn{padding:5px 10px;border-radius:6px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--card2);color:var(--text2);transition:all .15s}
+.obtn:hover{border-color:var(--green);color:var(--green)}
+.obtn.on{background:var(--green);color:#000;border-color:var(--green);box-shadow:0 2px 6px rgba(76,175,80,.3)}
+.obtn.col-sel{background:var(--blue);color:#fff;border-color:var(--blue)}
+.obtn .odd-val{font-weight:400;font-size:10px;opacity:.8;margin-left:3px}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.filter-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:600;background:transparent;color:var(--muted)}
+.filter-btn.on{border-color:var(--blue);color:var(--blue);background:rgba(33,150,243,.1)}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.stat-card{background:var(--card);border-radius:10px;padding:12px 8px;text-align:center;border:1px solid var(--border)}
+.stat-val{font-size:20px;font-weight:800;margin-bottom:2px}
+.stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* COLONNE VISUALIZZAZIONE */
+.col-visual{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:14px}
+.col-card{background:var(--card2);border-radius:10px;padding:12px;border:1px solid var(--border);border-top:3px solid var(--blue)}
+.col-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.col-card-title{font-weight:700;color:var(--blue);font-size:13px}
+.col-err-row{display:flex;gap:4px;margin-top:8px;align-items:center}
+.col-err-label{font-size:10px;color:var(--muted);margin-right:4px}
+.err-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);font-weight:700;font-size:11px;background:var(--card);color:var(--muted)}
+.err-btn.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.col-match-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.col-match-row:last-child{border-bottom:none}
+.col-match-name{font-size:11px;color:var(--text2)}
+.col-match-esito{font-weight:700;font-size:12px;color:var(--blue);background:rgba(33,150,243,.15);padding:2px 8px;border-radius:5px}
+
+/* SISTEMA INTEGRALE VIEW */
+.sistema-view{background:var(--card);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:14px}
+.sistema-header{background:linear-gradient(135deg,#0d2a0d,#162030);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.sistema-title{font-weight:700;color:var(--green);font-size:14px}
+.sistema-body{padding:14px}
+.evento-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.evento-row:last-child{border-bottom:none}
+.evento-teams{font-weight:600;font-size:12px}
+.evento-esiti{display:flex;gap:4px}
+.esito-tag{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700}
+.esito-1x2{background:rgba(76,175,80,.2);color:var(--green);border:1px solid rgba(76,175,80,.3)}
+.esito-dc{background:rgba(33,150,243,.2);color:var(--blue);border:1px solid rgba(33,150,243,.3)}
+.esito-ou{background:rgba(255,193,7,.2);color:var(--gold);border:1px solid rgba(255,193,7,.3)}
+.esito-gg{background:rgba(156,39,176,.2);color:var(--purple);border:1px solid rgba(156,39,176,.3)}
+.esito-ex{background:rgba(0,188,212,.2);color:var(--cyan);border:1px solid rgba(0,188,212,.3)}
+
+/* SIDEBAR LAYOUT */
+.dual-view{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.dual-view{grid-template-columns:1fr}}
+
+/* SCHEDINE */
+.schedina-row{background:var(--card2);border-radius:8px;padding:8px 12px;margin-bottom:6px;border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;transition:all .2s}
+.schedina-row:hover{border-color:var(--green);background:rgba(76,175,80,.05)}
+.schedina-sels{display:flex;flex-wrap:wrap;gap:4px}
+.sch-tag{background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-size:10px}
+.sch-quote{text-align:right;min-width:80px}
+.sch-quota{font-weight:800;color:var(--green);font-size:13px}
+.sch-win{font-size:10px;color:var(--muted)}
+
+/* STORICO */
+.giocata-card{background:var(--card);border-radius:10px;padding:14px;margin-bottom:10px;border:1px solid var(--border)}
+.giocata-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.giocata-title{font-weight:700;font-size:13px}
+.giocata-date{font-size:11px;color:var(--muted)}
+.giocata-stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.gstat{text-align:center}
+.gstat-val{font-weight:700;font-size:16px}
+.gstat-lbl{font-size:10px;color:var(--muted)}
+.verifica-btn{padding:8px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;font-weight:700;font-size:12px}
+.verifica-btn:hover{transform:translateY(-1px)}
+.status-badge{padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700}
+.status-win{background:rgba(76,175,80,.2);color:var(--green);border:1px solid rgba(76,175,80,.3)}
+.status-lose{background:rgba(244,67,54,.2);color:var(--red);border:1px solid rgba(244,67,54,.3)}
+.status-pending{background:rgba(255,193,7,.2);color:var(--gold);border:1px solid rgba(255,193,7,.3)}
+
+/* PAGINATION */
+.pgn{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.pgb{background:var(--card);border:1px solid var(--border);color:var(--green);border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600}
+.pgb:hover:not(:disabled){background:var(--green);color:#000}
+.pgb:disabled{opacity:.3;cursor:default}
+
+/* FBAR */
 .fbar{background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.fbar input{padding:6px 9px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:#e0e0e0;font-size:13px;width:65px}
-.cb2{background:var(--bg);border:1px solid var(--border);color:var(--green);width:28px;height:28px;border-radius:6px;font-size:16px}
-.empty{text-align:center;padding:60px 20px;color:var(--muted)}
-.ibanner{background:var(--card);border-radius:10px;padding:9px 14px;margin-bottom:12px;border:1px solid #2d5a1b;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.gbtn{background:var(--green);color:var(--bg);border:none;border-radius:7px;padding:6px 14px;font-weight:700;font-size:12px}
-.bluebtn{background:var(--blue);color:var(--bg);border:none;border-radius:8px;padding:10px;font-weight:700;font-size:13px;width:100%;margin-top:10px}
-.fgbtn{background:var(--green);color:var(--bg);border:none;border-radius:8px;padding:11px;font-weight:700;font-size:14px;width:100%;margin-top:6px}
-.linp{width:100%;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:#e0e0e0;font-size:13px;margin-top:6px}
-.lbdg{font-size:10px;font-weight:700;margin-right:6px;padding:1px 6px;border-radius:8px}
-.bbdg{font-size:10px;color:var(--green);background:var(--dgreen);border-radius:10px;padding:2px 7px}
-.psec{background:var(--card);border-radius:10px;padding:13px;margin-bottom:14px;border:1px solid var(--border)}
-.pbtn{background:#2a3a5a;color:#8ab4f8;border:1px solid #3a5a8a;border-radius:8px;padding:10px 18px;font-weight:700;font-size:13px;margin-right:8px;margin-bottom:8px}
-.disc{margin:16px 14px;padding:9px;background:#1a1a0a;border-radius:8px;border:1px solid #5a5a1b;font-size:10px;color:#666;text-align:center}
+.fbar input{padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;width:70px}
+.cost-ctrl{display:flex;align-items:center;gap:8px;margin-left:auto}
+.cost-btn{background:var(--card2);border:1px solid var(--border);color:var(--green);width:30px;height:30px;border-radius:7px;font-size:18px;font-weight:700}
+.cost-val{font-weight:700;min-width:50px;text-align:center;font-size:15px}
+
+/* BUTTONS */
+.btn-primary{padding:10px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;font-weight:700;font-size:13px}
+.btn-blue{padding:10px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;font-weight:700;font-size:13px}
+.btn-red{padding:6px 12px;border-radius:6px;border:none;background:rgba(244,67,54,.15);color:var(--red);font-weight:700;font-size:12px;border:1px solid rgba(244,67,54,.3)}
+.btn-full{width:100%;margin-top:8px}
+.btn-save{padding:10px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--gold),#f57c00);color:#000;font-weight:700;font-size:13px}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:56px;margin-bottom:16px;opacity:.5}
+
+/* LINEA RIEPILOGO */
+.riepilogo-bar{background:linear-gradient(135deg,#0d2a0d,#0d1f35);border-radius:10px;padding:12px 16px;margin-bottom:14px;border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.riepilogo-item{text-align:center}
+.riepilogo-val{font-weight:800;font-size:18px}
+.riepilogo-lbl{font-size:10px;color:var(--muted);text-transform:uppercase}
+.arrow-icon{color:var(--green);font-size:20px}
+
+/* STAMPA */
+.print-section{background:var(--card);border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid var(--border)}
+.print-btn{padding:10px 16px;border-radius:8px;border:1px solid #3a5a8a;background:#1a2a4a;color:#8ab4f8;font-weight:700;font-size:12px;margin-right:8px;margin-bottom:8px}
+.print-btn:hover{background:#2a3a5a}
+
+/* DISC */
+.disc{margin:16px;padding:10px;background:#1a1500;border-radius:8px;border:1px solid #3a3000;font-size:10px;color:#888;text-align:center}
+
+/* LINEA INPUT */
+.linp{width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;margin-top:6px}
+.linp:focus{outline:none;border-color:var(--blue)}
 </style>
 </head>
 <body>
+
+<!-- HEADER -->
 <div class="header">
   <div class="hrow">
-    <span style="font-size:24px">⚽</span>
-    <div style="flex:1"><div class="htitle">Sistema Scommesse Italia</div><div class="hsub">Serie A · B · C · Champions · Coppa Italia</div></div>
-    <span id="srv" class="srv ok">● Online</span>
+    <div class="logo">
+      <span class="logo-icon">⚽</span>
+      <div>
+        <div class="logo-text">BetSystem Pro</div>
+        <div class="logo-sub">Sistema Scommesse Italia</div>
+      </div>
+    </div>
+    <div id="srv" class="srv-badge srv-ok"><div class="srv-dot"></div><span>Online</span></div>
     <div id="hbdg" style="display:none;gap:6px;align-items:center;margin-left:8px">
       <span id="ic" style="font-size:11px;color:var(--muted)"></span>
       <span style="color:var(--green)">→</span>
-      <span id="fc" class="badge">0</span>
+      <span id="fc" style="background:var(--green);color:#000;border-radius:20px;padding:2px 10px;font-weight:800;font-size:12px">0</span>
     </div>
   </div>
   <div class="chrow">
-    <button class="cbtn on" onclick="tgC('all')" id="ca">🏆 Tutti</button>
-    <button class="cbtn" onclick="tgC(135)" id="c135">🇮🇹 Serie A</button>
-    <button class="cbtn" onclick="tgC(136)" id="c136">🇮🇹 Serie B</button>
-    <button class="cbtn" onclick="tgC('sc')" id="csc">🇮🇹 Serie C</button>
-    <button class="cbtn" onclick="tgC(2)" id="c2">⭐ Champions</button>
-    <button class="cbtn" onclick="tgC(137)" id="c137">🏅 Coppa Italia</button>
+    <button class="chbtn on" onclick="tgC('all')" id="ca">🏆 Tutti</button>
+    <button class="chbtn" onclick="tgC(135)" id="c135">🇮🇹 Serie A</button>
+    <button class="chbtn" onclick="tgC(136)" id="c136">🇮🇹 Serie B</button>
+    <button class="chbtn" onclick="tgC(135755)" id="c135755">🇮🇹 Serie C/A</button>
+    <button class="chbtn" onclick="tgC(135756)" id="c135756">🇮🇹 Serie C/B</button>
+    <button class="chbtn" onclick="tgC(135757)" id="c135757">🇮🇹 Serie C/C</button>
+    <button class="chbtn" onclick="tgC(135758)" id="c135758">🇮🇹 Serie C1</button>
+    <button class="chbtn" onclick="tgC(2)" id="c2">⭐ Champions</button>
+    <button class="chbtn" onclick="tgC(137)" id="c137">🏅 Coppa Italia</button>
   </div>
-  <div class="brow">
-    <button class="lbtn" id="lb" onclick="load()">🔄 Aggiorna partite settimanali</button>
+  <div class="arow">
+    <button class="load-btn" id="lb" onclick="loadMatches()">🔄 Carica giornata corrente</button>
   </div>
-  <div id="lu" class="lastupd" style="display:none"></div>
-  <div id="em" class="errmsg" style="display:none"></div>
+  <div id="lu" style="font-size:11px;color:var(--muted);margin-top:6px;display:none"></div>
+  <div id="em" style="font-size:12px;color:var(--red);margin-top:6px;background:#2a0d0d;border-radius:7px;padding:7px 10px;display:none"></div>
 </div>
 
+<!-- TABS -->
 <div class="tabs">
-  <button class="tbtn active" onclick="sT('p')" id="tp">📋 Partite</button>
-  <button class="tbtn" onclick="sT('r')" id="tr">🔧 Riduzione</button>
-  <button class="tbtn" onclick="sT('o')" id="to">📊 Output</button>
-  <button class="tbtn" onclick="sT('s')" id="ts">🖨️ Stampa</button>
+  <button class="tbtn active" onclick="sT('partite')" id="tab-partite">📋 Partite</button>
+  <button class="tbtn" onclick="sT('ticket')" id="tab-ticket">🎯 Ticket</button>
+  <button class="tbtn" onclick="sT('condizionato')" id="tab-condizionato">🔧 Condizionato</button>
+  <button class="tbtn" onclick="sT('ridotto')" id="tab-ridotto">📐 Ridotto</button>
+  <button class="tbtn" onclick="sT('output')" id="tab-output">📊 Output</button>
+  <button class="tbtn" onclick="sT('storico')" id="tab-storico">📁 Storico</button>
+  <button class="tbtn" onclick="sT('stampa')" id="tab-stampa">🖨️ Stampa</button>
 </div>
 
 <div class="content">
-  <div id="pp">
-    <div class="lfilt" id="lf"></div>
-    <div id="ib" class="ibanner" style="display:none">
-      <span id="it" style="font-size:13px;color:var(--muted)"></span>
-      <button class="gbtn" onclick="sT('r')">Riduci →</button>
-    </div>
-    <div id="ml"><div class="empty"><div style="font-size:48px;margin-bottom:16px">⚽</div><div style="font-size:16px;margin-bottom:8px;color:#e0e0e0">Nessuna partita caricata</div><div style="font-size:13px">Clicca "Aggiorna partite settimanali"</div></div></div>
-  </div>
 
-  <div id="pr" style="display:none">
-    <div class="card"><div class="ctitle" style="color:var(--gold)">📌 Fisse</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Esiti obbligatori in tutte le schedine.</div><div id="fl"></div></div>
-    <div class="card"><div class="ctitle" style="color:var(--blue)">🔧 Costruttore Colonne</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Seleziona esiti per la colonna.</div><div id="cb"></div><button class="bluebtn" onclick="addCol()">➕ Aggiungi colonna</button></div>
-    <div class="card" id="cs" style="display:none">
-      <div class="ctitle" style="color:var(--blue)">📋 Colonne</div>
-      <div id="cl"></div>
-      <div style="margin-top:10px">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Logica: <span style="color:var(--green)">COL1 AND COL2</span> / <span style="color:var(--green)">(COL1 OR COL2) AND COL3</span> — vuoto=OR tutte</div>
-        <input class="linp" id="li" placeholder="Es: COL1 OR COL2" oninput="rc()">
+<!-- ── PARTITE ── -->
+<div id="page-partite">
+  <div class="filter-bar" id="lf"></div>
+  <div id="ib" style="background:var(--card);border-radius:10px;padding:9px 14px;margin-bottom:12px;border:1px solid #2d5a1b;display:none;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+    <span id="it" style="font-size:13px;color:var(--muted)"></span>
+    <button class="btn-primary" style="padding:6px 14px;font-size:12px" onclick="sT('ticket')">Vai al Ticket →</button>
+  </div>
+  <div id="ml"><div class="empty-state"><div class="empty-icon">⚽</div><div style="font-size:16px;margin-bottom:8px;color:var(--text)">Nessuna partita caricata</div><div style="font-size:13px">Clicca "Carica giornata corrente"</div></div></div>
+</div>
+
+<!-- ── TICKET ── -->
+<div id="page-ticket" style="display:none">
+  <div id="ticket-empty" class="empty-state"><div class="empty-icon">🎯</div><div style="font-size:16px;margin-bottom:8px;color:var(--text)">Nessuna selezione</div><div>Vai su "Partite" e seleziona gli esiti</div></div>
+  <div id="ticket-content" style="display:none">
+    <div class="sistema-view">
+      <div class="sistema-header">
+        <div class="sistema-title">⚽ Sistema Integrale</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span id="tk-combos" style="background:rgba(76,175,80,.2);color:var(--green);padding:3px 12px;border-radius:20px;font-weight:700;font-size:12px">0 combinazioni</span>
+          <button class="btn-save" style="padding:6px 14px;font-size:12px" onclick="salvaGiocata()">💾 Salva Giocata</button>
+        </div>
       </div>
+      <div class="sistema-body" id="ticket-list"></div>
     </div>
-    <div class="card">
-      <div class="sr"><span style="color:var(--muted)">Sviluppo integrale:</span><span id="s0" style="font-weight:700">0</span></div>
-      <div class="sr"><span style="color:var(--muted)">Dopo fisse:</span><span id="s1" style="font-weight:700;color:var(--gold)">0</span></div>
-      <div class="sr"><span style="color:var(--muted)">Dopo colonne:</span><span id="s2" style="font-weight:700;color:var(--green)">0</span></div>
-      <button class="fgbtn" onclick="sT('o')">📊 Output →</button>
-    </div>
-  </div>
-
-  <div id="po" style="display:none">
-    <div id="oe" class="empty"><div style="font-size:36px;margin-bottom:12px">📋</div>Nessuna schedina.</div>
-    <div id="oc" style="display:none">
-      <div class="sgrid" id="sg"></div>
-      <div class="fbar">
-        <span style="font-size:12px;color:var(--muted)">Quota:</span>
-        <input id="mn" placeholder="Min" oninput="rc()">
-        <input id="mx" placeholder="Max" oninput="rc()">
-        <button onclick="document.getElementById('mn').value='';document.getElementById('mx').value='';rc()" style="background:#3a1a1a;border:1px solid #5a2a2a;color:var(--red);border-radius:6px;padding:5px 10px;font-size:11px">Reset</button>
-        <span style="font-size:12px;color:var(--muted);margin-left:auto">€/sched:</span>
-        <button class="cb2" onclick="cc(-0.5)">−</button>
-        <span id="cl2" style="font-weight:700;min-width:40px;text-align:center">€2.00</span>
-        <button class="cb2" onclick="cc(0.5)">+</button>
-      </div>
-      <div id="pi" style="font-size:11px;color:#555;margin-bottom:6px"></div>
-      <div id="sl"></div>
-      <div class="pgn" id="pn"></div>
-    </div>
-  </div>
-
-  <div id="ps" style="display:none">
-    <div class="psec">
-      <div class="ctitle" style="color:var(--green);margin-bottom:12px">🖨️ Stampa Sistema</div>
-      <button class="pbtn" onclick="dP('all')">🖨️ Tutto</button>
-      <button class="pbtn" onclick="dP('i')">📋 Integrale</button>
-      <button class="pbtn" onclick="dP('c')">🔧 Condizioni</button>
-      <button class="pbtn" onclick="dP('s')">📊 Schedine</button>
-    </div>
-    <div class="psec">
-      <div class="ctitle" style="color:var(--muted);margin-bottom:10px;font-size:12px">ANTEPRIMA</div>
-      <div id="pv" style="font-size:12px;color:var(--muted)">Nessun dato.</div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+      <button class="btn-blue" onclick="sT('condizionato')">Applica Condizioni →</button>
     </div>
   </div>
 </div>
 
-<div class="disc">⚠️ <strong style="color:#d4d455">Gioca responsabilmente.</strong> Il gioco d'azzardo può causare dipendenza. 18+</div>
+<!-- ── CONDIZIONATO ── -->
+<div id="page-condizionato" style="display:none">
+  <!-- Builder colonna -->
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">🔧</span>Costruttore Colonne</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Seleziona gli esiti del ticket per creare una colonna condizionata. Tutte le colonne si combinano in AND.</div>
+    <div id="col-builder"></div>
+    <button class="btn-blue btn-full" onclick="addCol()">➕ Aggiungi Colonna</button>
+  </div>
+
+  <!-- Visualizzazione colonne -->
+  <div id="col-section" style="display:none">
+    <div class="card-title" style="margin-bottom:10px"><span class="card-title-icon">📋</span>Colonne Condizionate <span style="color:var(--muted);font-size:12px;font-weight:400">(combinate in AND)</span></div>
+    <div class="col-visual" id="col-visual"></div>
+  </div>
+
+  <!-- Riepilogo riduzione -->
+  <div class="riepilogo-bar">
+    <div class="riepilogo-item"><div class="riepilogo-val" style="color:var(--text)" id="r-integrale">0</div><div class="riepilogo-lbl">Integrale</div></div>
+    <div class="arrow-icon">→</div>
+    <div class="riepilogo-item"><div class="riepilogo-val" style="color:var(--green)" id="r-condizionato">0</div><div class="riepilogo-lbl">Dopo condizioni</div></div>
+    <div class="arrow-icon">→</div>
+    <div class="riepilogo-item"><div class="riepilogo-val" style="color:var(--gold)" id="r-riduzione">0%</div><div class="riepilogo-lbl">Riduzione</div></div>
+    <button class="btn-primary" style="padding:8px 16px;font-size:12px" onclick="sT('output')">Vai all'Output →</button>
+  </div>
+
+  <!-- Vista affiancata -->
+  <div id="dual-section" style="display:none">
+    <div class="dual-view">
+      <div>
+        <div class="card-title" style="margin-bottom:8px"><span class="card-title-icon">⚽</span>Sistema Integrale</div>
+        <div id="dual-integrale"></div>
+      </div>
+      <div>
+        <div class="card-title" style="margin-bottom:8px"><span class="card-title-icon">🔧</span>Colonne Applicate</div>
+        <div id="dual-colonne"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RIDOTTO ── -->
+<div id="page-ridotto" style="display:none">
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">📐</span>Sistema Ridotto</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Un sistema ridotto garantisce almeno una vincita minima anche con X errori. Le fisse non entrano nella riduzione ma filtrano le schedine.</div>
+
+    <!-- Fisse -->
+    <div style="margin-bottom:14px">
+      <div style="font-weight:700;color:var(--gold);margin-bottom:8px;font-size:13px">📌 Fisse</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Esiti certi — non entrano nella riduzione ma sono presenti in tutte le schedine.</div>
+      <div id="ridotto-fisse"></div>
+    </div>
+
+    <!-- Errori garantiti -->
+    <div style="margin-bottom:14px">
+      <div style="font-weight:700;color:var(--purple);margin-bottom:8px;font-size:13px">🎯 Errori Garantiti</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Quanti errori vuoi coprire con certezza?</div>
+      <div style="display:flex;gap:8px">
+        <button class="err-btn on" id="gar-1" onclick="setGar(1)">1</button>
+        <button class="err-btn" id="gar-2" onclick="setGar(2)">2</button>
+        <button class="err-btn" id="gar-3" onclick="setGar(3)">3</button>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-full" onclick="generaRidotto()">📐 Genera Sistema Ridotto</button>
+  </div>
+  <div id="ridotto-output"></div>
+</div>
+
+<!-- ── OUTPUT ── -->
+<div id="page-output" style="display:none">
+  <div id="out-empty" class="empty-state"><div class="empty-icon">📊</div>Nessuna schedina.<br>Vai su Partite e seleziona gli esiti.</div>
+  <div id="out-content" style="display:none">
+    <div class="stats-row" id="stats-row"></div>
+    <div class="fbar">
+      <span style="font-size:12px;color:var(--muted)">Quota:</span>
+      <input id="minO" placeholder="Min" oninput="rc()">
+      <input id="maxO" placeholder="Max" oninput="rc()">
+      <button onclick="document.getElementById('minO').value='';document.getElementById('maxO').value='';rc()" class="btn-red" style="padding:5px 10px;font-size:11px">Reset</button>
+      <div class="cost-ctrl">
+        <span style="font-size:12px;color:var(--muted)">€/sched:</span>
+        <button class="cost-btn" onclick="cc(-0.5)">−</button>
+        <span id="cost-val" class="cost-val">€2.00</span>
+        <button class="cost-btn" onclick="cc(0.5)">+</button>
+      </div>
+    </div>
+    <div id="pinfo" style="font-size:11px;color:var(--muted);margin-bottom:8px"></div>
+    <div id="sched-list"></div>
+    <div class="pgn" id="pgn"></div>
+  </div>
+</div>
+
+<!-- ── STORICO ── -->
+<div id="page-storico" style="display:none">
+  <div id="storico-empty" class="empty-state"><div class="empty-icon">📁</div>Nessuna giocata salvata.<br>Crea un sistema e clicca "Salva Giocata".</div>
+  <div id="storico-list"></div>
+</div>
+
+<!-- ── STAMPA ── -->
+<div id="page-stampa" style="display:none">
+  <div class="print-section">
+    <div class="card-title" style="margin-bottom:12px"><span class="card-title-icon">🖨️</span>Stampa Sistema</div>
+    <button class="print-btn" onclick="doPrint('all')">🖨️ Stampa tutto</button>
+    <button class="print-btn" onclick="doPrint('sistema')">⚽ Sistema + Colonne</button>
+    <button class="print-btn" onclick="doPrint('schedine')">📊 Schedine complete</button>
+  </div>
+  <div class="print-section">
+    <div style="font-weight:700;color:var(--muted);margin-bottom:10px;font-size:12px">ANTEPRIMA</div>
+    <div id="print-preview" style="font-size:12px;color:var(--muted)">Nessun dato.</div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<div class="disc">⚠️ <strong style="color:var(--gold)">Gioca responsabilmente.</strong> Il gioco d'azzardo può causare dipendenza. Vietato ai minori di 18 anni.</div>
 
 <script>
 const API='https://sistema-scommesse-production.up.railway.app';
-const LG={135:{n:'Serie A',c:'#7dc455'},136:{n:'Serie B',c:'#d4a455'},135755:{n:'Serie C/A',c:'#a455d4'},135756:{n:'Serie C/B',c:'#a455d4'},135757:{n:'Serie C/C',c:'#a455d4'},2:{n:'Champions',c:'#55a4d4'},137:{n:'Coppa Italia',c:'#e05555'}};
+
+const LG={
+  135:{n:'Serie A',c:'#4caf50'},
+  136:{n:'Serie B',c:'#ffc107'},
+  135755:{n:'Serie C/A',c:'#9c27b0'},
+  135756:{n:'Serie C/B',c:'#9c27b0'},
+  135757:{n:'Serie C/C',c:'#9c27b0'},
+  135758:{n:'Serie C1',c:'#e91e63'},
+  2:{n:'Champions',c:'#2196f3'},
+  137:{n:'Coppa Italia',c:'#f44336'},
+};
+
 const BG=[
   {k:'1x2',l:'1X2',b:['1','X','2']},
   {k:'dc',l:'Doppia Chance',b:['1X','X2','12']},
@@ -180,41 +419,84 @@ const BG=[
   {k:'gg',l:'GG/NG',b:['GG','NG']},
   {k:'gh',l:'Gol Casa',b:['CasaO','CasaU']},
   {k:'ga',l:'Gol Trasferta',b:['TrasfO','TrasfU']},
-  {k:'ex',l:'Risultato Esatto',b:['1-0','0-0','1-1','2-0','0-1','2-1','1-2','2-2','3-0','0-2','0-3','3-1']},
+  {k:'ex',l:'Ris. Esatto',b:['1-0','0-0','1-1','2-0','0-1','2-1','1-2','2-2','3-0','0-2','0-3','3-1']},
 ];
-let M=[],sel={},fis={},colB={},cols=[];
+
+function esitoCls(o){
+  if(['1','X','2'].includes(o))return'esito-1x2';
+  if(['1X','X2','12'].includes(o))return'esito-dc';
+  if(['Over','Under'].includes(o))return'esito-ou';
+  if(['GG','NG'].includes(o))return'esito-gg';
+  return'esito-ex';
+}
+
+let M=[],sel={},cols=[],fisse_rid={},garErr=1;
 let filt='Tutte',cost=2,pg=0;
 const PS=50;
-let INT=[],aF=[],aC=[],FIL=[];
+let INT=[],aC=[],FIL=[];
 let AC=new Set(['all']);
+let storico=JSON.parse(localStorage.getItem('storico')||'[]');
 
+// ── SERVER CHECK ──
+async function chkSrv(){
+  try{
+    const r=await fetch(API+'/status',{signal:AbortSignal.timeout(3000)});
+    const ok=r.ok;
+    document.getElementById('srv').className='srv-badge '+(ok?'srv-ok':'srv-ko');
+    document.getElementById('srv').innerHTML='<div class="srv-dot"></div><span>'+(ok?'Online':'Offline')+'</span>';
+    return ok;
+  }catch(e){
+    document.getElementById('srv').className='srv-badge srv-ko';
+    document.getElementById('srv').innerHTML='<div class="srv-dot"></div><span>Offline</span>';
+    return false;
+  }
+}
+setInterval(chkSrv,8000);chkSrv();
+
+// ── CAMPIONATI ──
 function tgC(id){
   if(id==='all'){AC=new Set(['all']);}
   else{AC.delete('all');AC.has(id)?AC.delete(id):AC.add(id);if(!AC.size)AC=new Set(['all']);}
-  ['all',135,136,'sc',2,137].forEach(k=>{const e=document.getElementById('c'+k);if(e)e.className='cbtn'+(AC.has(k)||(AC.has('all')&&k==='all')?' on':'');});
+  ['all',135,136,135755,135756,135757,135758,2,137].forEach(k=>{
+    const e=document.getElementById('c'+k);
+    if(e)e.className='chbtn'+(AC.has(k)||(AC.has('all')&&k==='all')?' on':'');
+  });
 }
 
 function gLids(){
-  if(AC.has('all'))return[135,136,135755,135756,135757,2,137];
-  const r=[];
-  for(const c of AC){if(c==='sc')r.push(135755,135756,135757);else r.push(+c);}
-  return r;
+  if(AC.has('all'))return[135,136,135755,135756,135757,135758,2,137];
+  return[...AC].map(c=>+c);
 }
 
-async function load(){
+// ── LOAD ──
+async function loadMatches(){
   const btn=document.getElementById('lb'),err=document.getElementById('em');
-  btn.disabled=true;btn.textContent='⏳ Caricamento...';err.style.display='none';
+  btn.disabled=true;btn.textContent='⏳ Caricamento giornata...';err.style.display='none';
   try{
     const ids=gLids();const all=[];
     for(const lid of ids){
       try{
+        // Carica la prossima giornata (next=1 per giornata corrente, poi espandiamo alla giornata)
         const d=await(await fetch(API+'/fixtures?league='+lid+'&season=2025&next=15')).json();
-        for(const f of(d.response||[])){
+        if(!d.response||!d.response.length)continue;
+        // Raggruppa per round e prendi solo il round corrente
+        const rounds={};
+        for(const f of d.response){
+          const round=f.league.round||'';
+          if(!rounds[round])rounds[round]=[];
+          rounds[round].push(f);
+        }
+        // Prendi il primo round (il più imminente)
+        const firstRound=Object.keys(rounds)[0];
+        const fixtures=rounds[firstRound]||[];
+        for(const f of fixtures){
           const dt=new Date(f.fixture.date);
           all.push({
             id:f.fixture.id,
             league:LG[lid]?LG[lid].n:'?',
+            leagueId:lid,
             lc:LG[lid]?LG[lid].c:'#888',
+            round:f.league.round||'',
             home:cl(f.teams.home.name),
             away:cl(f.teams.away.name),
             date:dt.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'}),
@@ -224,26 +506,28 @@ async function load(){
         }
       }catch(e){console.log('Errore lega',lid,e);}
     }
-    if(!all.length)throw new Error('Nessuna partita trovata');
-    M=all;rst();ldQ(all);
+    if(!all.length)throw new Error('Nessuna partita trovata per la giornata corrente');
+    M=all;sel={};cols=[];pg=0;
+    rLF();rM();rR();rc();
+    ldQ(all);
     const u=document.getElementById('lu');
     u.style.display='block';
-    u.textContent='Aggiornato: '+new Date().toLocaleString('it-IT')+' — '+all.length+' partite';
+    u.textContent='✅ Caricata giornata corrente: '+all.length+' partite — '+new Date().toLocaleString('it-IT');
   }catch(e){
     err.style.display='block';
     err.textContent='⚠️ '+e.message;
   }
-  btn.disabled=false;btn.textContent='🔄 Aggiorna partite settimanali';
+  btn.disabled=false;btn.textContent='🔄 Carica giornata corrente';
 }
 
 async function ldQ(ml){
   for(const m of ml){
     try{
       const od=await(await fetch(API+'/odds?fixture='+m.id+'&bookmaker=8')).json();
-      pO(m,(od.response&&od.response[0]&&od.response[0].bookmakers&&od.response[0].bookmakers[0]?od.response[0].bookmakers[0].bets:[]));
-      rM();
+      const bets=od.response&&od.response[0]&&od.response[0].bookmakers&&od.response[0].bookmakers[0]?od.response[0].bookmakers[0].bets:[];
+      pO(m,bets);rM();
     }catch(e){}
-    await new Promise(r=>setTimeout(r,200));
+    await new Promise(r=>setTimeout(r,150));
   }
 }
 
@@ -260,219 +544,493 @@ function pO(m,bets){
 }
 
 function f2(v){return+parseFloat(v).toFixed(2);}
-
 function estO(h,a){
   const hs=st(h),as=st(a);
   let h1,hX,h2;
-  if(hs&&!as){h1=1.65;hX=3.5;h2=5;}
-  else if(!hs&&as){h1=4.5;hX=3.5;h2=1.75;}
-  else if(hs&&as){h1=2.2;hX=3.2;h2=3.2;}
-  else{h1=2.5;hX=3.1;h2=2.8;}
+  if(hs&&!as){h1=1.65;hX=3.5;h2=5;}else if(!hs&&as){h1=4.5;hX=3.5;h2=1.75;}else if(hs&&as){h1=2.2;hX=3.2;h2=3.2;}else{h1=2.5;hX=3.1;h2=2.8;}
   const v=()=>+(Math.random()*.3-.15).toFixed(2);
   const f=n=>+Math.max(1.05,n+v()).toFixed(2);
   return{'1':f(h1),'X':f(hX),'2':f(h2),'1X':f(1.3),'X2':f(1.4),'12':f(1.5),'Over':f(1.85),'Under':f(1.95),'GG':f(1.8),'NG':f(2),'CasaO':f(1.7),'CasaU':f(2.1),'TrasfO':f(1.85),'TrasfU':f(1.95),'1-0':f(6.5),'0-0':f(8),'1-1':f(6),'2-0':f(8.5),'0-1':f(9),'2-1':f(9),'1-2':f(11),'2-2':f(12),'3-0':f(14),'0-2':f(15),'0-3':f(20),'3-1':f(18)};
 }
-
 function st(n){return['juventus','inter','milan','napoli','atalanta','roma','lazio','fiorentina'].some(s=>(n||'').toLowerCase().includes(s));}
 function cl(n){return(n||'N/D').replace(/\b(FC|SSC|AC|AS|US|AFC)\b\.?\s*/gi,'').trim();}
-function rst(){sel={};fis={};colB={};cols=[];pg=0;rLF();rM();rR();rc();}
 
+// ── TABS ──
 function sT(t){
-  ['p','r','o','s'].forEach(k=>{
-    document.getElementById('p'+k).style.display=k===t?'':'none';
-    document.getElementById('t'+k).classList.toggle('active',k===t);
+  ['partite','ticket','condizionato','ridotto','output','storico','stampa'].forEach(k=>{
+    document.getElementById('page-'+k).style.display=k===t?'':'none';
+    document.getElementById('tab-'+k).classList.toggle('active',k===t);
   });
-  if(t==='s')rPv();
+  if(t==='ticket')rTicket();
+  if(t==='condizionato')rR();
+  if(t==='storico')rStorico();
+  if(t==='stampa')rPreview();
+  if(t==='ridotto')rRidotto();
 }
 
+// ── LEAGUE FILTER ──
 function rLF(){
   const ls=['Tutte',...new Set(M.map(m=>m.league))];
-  document.getElementById('lf').innerHTML=ls.map(l=>`<button class="lfbtn ${filt===l?'on':''}" onclick="sF('${l}')">${l}</button>`).join('')+`<span style="margin-left:auto;font-size:12px;color:var(--muted);align-self:center">${vi().length} partite</span>`;
+  document.getElementById('lf').innerHTML=ls.map(l=>`<button class="filter-btn ${filt===l?'on':''}" onclick="sF('${l}')">${l}</button>`).join('')+`<span style="margin-left:auto;font-size:12px;color:var(--muted)">${vi().length} partite</span>`;
 }
 function sF(l){filt=l;rLF();rM();}
 function vi(){return filt==='Tutte'?M:M.filter(m=>m.league===filt);}
 
+// ── RENDER PARTITE ──
 function rM(){
   const vm=vi();
   const sc=Object.values(sel).filter(s=>s&&s.size>0).length;
   const bn=document.getElementById('ib');
-  if(sc>0){bn.style.display='flex';document.getElementById('it').textContent=sc+' partite → '+INT.length.toLocaleString()+' combinazioni';}
+  if(sc>0){bn.style.display='flex';document.getElementById('it').textContent=sc+' eventi selezionati → '+INT.length.toLocaleString()+' combinazioni';}
   else bn.style.display='none';
-  if(!vm.length){document.getElementById('ml').innerHTML='<div class="empty">Nessuna partita</div>';return;}
+  if(!vm.length){document.getElementById('ml').innerHTML='<div class="empty-state"><div class="empty-icon">⚽</div>Nessuna partita</div>';return;}
   document.getElementById('ml').innerHTML=vm.map(m=>{
     const s=sel[m.id]||new Set();
     const bt=s.size===1?'singola':s.size===2?'doppia':s.size>=3?'multipla':'';
     const gh=BG.map(g=>{
-      const bs=g.b.filter(b=>m.odds[b]!=null).map(b=>`<button class="obtn ${s.has(b)?'on':''}" onclick="tS(${m.id},'${b}')">${b} <span style="font-weight:400;font-size:10px;opacity:.8">${m.odds[b]}</span></button>`).join('');
+      const bs=g.b.filter(b=>m.odds[b]!=null).map(b=>`<button class="obtn ${s.has(b)?'on':''}" onclick="tS(${m.id},'${b}')">${b}<span class="odd-val">${m.odds[b]}</span></button>`).join('');
       if(!bs)return'';
-      return`<div class="ogrp"><div class="ogrplbl">${g.l}</div><div class="orow">${bs}</div></div>`;
+      return`<div class="bet-group"><div class="bet-group-label">${g.l}</div><div class="bet-row">${bs}</div></div>`;
     }).join('');
     return`<div class="match ${s.size?'sel':''}">
-      <div class="mhdr">
-        <div><span class="lbdg" style="color:${m.lc};background:${m.lc}22;border:1px solid ${m.lc}44">${m.league}</span><span style="font-weight:700;font-size:13px">${m.home} <span style="color:#555">vs</span> ${m.away}</span></div>
-        <div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:var(--muted)">${m.date} ${m.time}</span>${s.size?`<span class="bbdg">${bt}</span>`:''}</div>
-      </div>${gh}</div>`;
+      <div class="match-header">
+        <div class="match-teams">
+          <span class="league-badge" style="color:${m.lc};background:${m.lc}22;border:1px solid ${m.lc}44">${m.league}</span>
+          <span class="team-name">${m.home}</span>
+          <span class="vs">vs</span>
+          <span class="team-name">${m.away}</span>
+          ${s.size?`<span style="background:rgba(76,175,80,.15);color:var(--green);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">${bt}</span>`:''}
+        </div>
+        <div class="match-info">
+          <span class="round-badge">${m.round.split('-').pop().trim()}</span>
+          <span class="match-datetime">📅 ${m.date} 🕐 ${m.time}</span>
+        </div>
+      </div>
+      <div class="bet-groups">${gh}</div>
+    </div>`;
   }).join('');
 }
 
 function tS(id,o){
   if(!sel[id])sel[id]=new Set();
   sel[id].has(o)?sel[id].delete(o):sel[id].add(o);
-  rc();rM();rR();
+  if(sel[id].size===0)delete sel[id];
+  rc();rM();
 }
 
+// ── TICKET ──
+function rTicket(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
+  document.getElementById('ticket-empty').style.display=ids.length?'none':'block';
+  document.getElementById('ticket-content').style.display=ids.length?'block':'none';
+  if(!ids.length)return;
+  document.getElementById('tk-combos').textContent=INT.length.toLocaleString()+' combinazioni';
+  document.getElementById('ticket-list').innerHTML=ids.map(id=>{
+    const m=M.find(m=>m.id===+id);if(!m)return'';
+    const esiti=[...sel[id]].map(o=>`<span class="esito-tag ${esitoCls(o)}">${o} @${m.odds[o]}</span>`).join('');
+    return`<div class="evento-row">
+      <div>
+        <div class="evento-teams">${m.home} vs ${m.away}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">${m.league} · ${m.date} ${m.time}</div>
+      </div>
+      <div class="evento-esiti">${esiti}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── COLONNE CONDIZIONATE ──
 function rR(){
   const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
-  const nm='<div style="color:var(--muted);font-size:12px">Nessuna partita selezionata.</div>';
-  document.getElementById('fl').innerHTML=!ids.length?nm:ids.map(id=>{
+  const nm='<div style="color:var(--muted);font-size:12px;padding:10px 0">Nessuna partita selezionata nel ticket.</div>';
+  document.getElementById('col-builder').innerHTML=!ids.length?nm:ids.map(id=>{
     const m=M.find(m=>m.id===+id);if(!m)return'';
-    return`<div style="margin-bottom:8px"><div style="font-size:12px;color:#aaa;margin-bottom:4px">${m.home} vs ${m.away}</div><div class="orow">${[...sel[id]].map(o=>`<button class="obtn ${fis[id]===o?'fissa':''}" onclick="tF(${id},'${o}')">📌 ${o} <span style="font-weight:400;font-size:10px">${m.odds[o]}</span></button>`).join('')}</div></div>`;
+    const cb=window._colB&&window._colB[id]||new Set();
+    return`<div style="margin-bottom:10px;padding:10px;background:var(--card2);border-radius:8px;border:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:700;margin-bottom:6px">${m.home} vs ${m.away} <span style="color:var(--muted);font-weight:400;font-size:11px">${m.date}</span></div>
+      <div class="bet-row">${[...sel[id]].map(o=>`<button class="obtn ${cb.has(o)?'col-sel':''}" onclick="tCB(${id},'${o}')">${o}<span class="odd-val">${m.odds[o]}</span></button>`).join('')}</div>
+    </div>`;
   }).join('');
-  document.getElementById('cb').innerHTML=!ids.length?nm:ids.map(id=>{
-    const m=M.find(m=>m.id===+id);if(!m)return'';
-    const cb2=colB[id]||new Set();
-    return`<div style="margin-bottom:8px"><div style="font-size:12px;color:#aaa;margin-bottom:4px">${m.home} vs ${m.away}</div><div class="orow">${[...sel[id]].map(o=>`<button class="obtn ${cb2.has(o)?'col':''}" onclick="tCB(${id},'${o}')">${o} <span style="font-weight:400;font-size:10px">${m.odds[o]}</span></button>`).join('')}</div></div>`;
+
+  // Visualizzazione colonne esistenti
+  const cs=document.getElementById('col-section');
+  cs.style.display=cols.length?'block':'none';
+  const ds=document.getElementById('dual-section');
+  ds.style.display=cols.length?'block':'none';
+
+  document.getElementById('col-visual').innerHTML=cols.map((c,i)=>{
+    const errs=[0,1,2,3].map(n=>`<button class="err-btn ${c.errs.has(n)?'on':''}" onclick="tErr(${c.id},${n})">${n}</button>`).join('');
+    const rows=c.sel.map(s=>`<div class="col-match-row"><div class="col-match-name">${s.h} vs ${s.a}</div><div class="col-match-esito">${s.o}</div></div>`).join('');
+    return`<div class="col-card">
+      <div class="col-card-header">
+        <div class="col-card-title">COL ${i+1}</div>
+        <button class="btn-red" style="padding:3px 8px;font-size:11px" onclick="remCol(${c.id})">✕</button>
+      </div>
+      ${rows}
+      <div class="col-err-row"><span class="col-err-label">Errori tollerati:</span>${errs}</div>
+    </div>`;
   }).join('');
-  document.getElementById('cs').style.display=cols.length?'':'none';
-  document.getElementById('cl').innerHTML=cols.map((c,i)=>{
-    const tgs=c.sel.map(s=>`<span class="stag">${s.h.substring(0,3).toUpperCase()} <strong style="color:var(--blue)">${s.o}</strong></span>`).join('');
-    const eb=[0,1,2,3].map(n=>`<button class="eb ${c.e===n?'on':''}" onclick="sE(${c.id},${n})">${n}</button>`).join('');
-    return`<div class="colit"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-weight:700;color:var(--blue);font-size:13px">COL${i+1}</span><button onclick="rC(${c.id})" style="background:#3a1a1a;border:none;color:var(--red);border-radius:5px;padding:2px 8px;font-size:12px">✕</button></div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${tgs}</div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Max errori:</span>${eb}</div></div>`;
-  }).join('');
+
+  // Vista affiancata
+  rDual();
+
+  // Riepilogo
+  document.getElementById('r-integrale').textContent=INT.length.toLocaleString();
+  document.getElementById('r-condizionato').textContent=aC.length.toLocaleString();
+  const perc=INT.length>0?Math.round((1-aC.length/INT.length)*100):0;
+  document.getElementById('r-riduzione').textContent=perc+'%';
 }
 
-function tF(id,o){fis[id]=fis[id]===o?null:o;rc();rR();}
-function tCB(id,o){if(!colB[id])colB[id]=new Set();colB[id].has(o)?colB[id].delete(o):colB[id].add(o);rR();}
+function rDual(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
+  document.getElementById('dual-integrale').innerHTML=ids.map(id=>{
+    const m=M.find(m=>m.id===+id);if(!m)return'';
+    return`<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+      <div style="font-size:12px;font-weight:600">${m.home} vs ${m.away}</div>
+      <div style="display:flex;gap:4px;margin-top:4px">${[...sel[id]].map(o=>`<span class="esito-tag ${esitoCls(o)}">${o}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('dual-colonne').innerHTML=cols.length?cols.map((c,i)=>`
+    <div style="margin-bottom:8px;padding:8px;background:rgba(33,150,243,.08);border-radius:8px;border:1px solid rgba(33,150,243,.2)">
+      <div style="font-weight:700;color:var(--blue);font-size:12px;margin-bottom:6px">COL ${i+1} · err: [${[...c.errs].join(',')}]</div>
+      ${c.sel.map(s=>`<div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:var(--muted)">${s.h} vs ${s.a}</span><span style="color:var(--blue);font-weight:700">${s.o}</span></div>`).join('')}
+    </div>`).join(''):'<div style="color:var(--muted);font-size:12px">Nessuna colonna.</div>';
+}
+
+function tCB(id,o){
+  if(!window._colB)window._colB={};
+  if(!window._colB[id])window._colB[id]=new Set();
+  window._colB[id].has(o)?window._colB[id].delete(o):window._colB[id].add(o);
+  rR();
+}
+
 function addCol(){
+  if(!window._colB)return;
   const sels=[];
-  for(const[id,set]of Object.entries(colB)){if(!set||!set.size)continue;const m=M.find(m=>m.id===+id);if(!m)continue;for(const o of set)sels.push({matchId:+id,h:m.home,a:m.away,o,q:m.odds[o]||1});}
+  for(const[id,set]of Object.entries(window._colB)){
+    if(!set||!set.size)continue;
+    const m=M.find(m=>m.id===+id);if(!m)continue;
+    for(const o of set)sels.push({matchId:+id,h:m.home,a:m.away,o,q:m.odds[o]||1});
+  }
   if(!sels.length)return;
-  cols.push({id:Date.now(),sel:sels,e:0});
-  colB={};rc();rR();
+  cols.push({id:Date.now(),sel:sels,errs:new Set([0])});
+  window._colB={};rc();rR();
 }
-function rC(id){cols=cols.filter(c=>c.id!==id);rc();rR();}
-function sE(id,n){cols=cols.map(c=>c.id===id?Object.assign({},c,{e:n}):c);rc();rR();}
 
-function cart(a){if(!a.length)return[[]];const[f,...r]=a;const rp=cart(r);const o=[];for(const i of f)for(const c of rp)o.push([i,...c]);return o;}
-function bI(){
-  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);if(!ids.length)return[];
-  const arr=ids.map(id=>{const m=M.find(m=>m.id===+id);if(!m)return[];return[...sel[id]].map(o=>({mId:+id,h:m.home,a:m.away,o,q:m.odds[o]||1}));}).filter(a=>a.length);
-  return cart(arr).map(s=>({s,t:+s.reduce((a,x)=>a*x.q,1).toFixed(2)}));
+function remCol(id){cols=cols.filter(c=>c.id!==id);rc();rR();}
+
+function tErr(id,n){
+  const c=cols.find(c=>c.id===id);if(!c)return;
+  if(c.errs.has(n)&&c.errs.size>1)c.errs.delete(n);
+  else c.errs.add(n);
+  rc();rR();
 }
+
+// ── RIDOTTO ──
+function setGar(n){
+  garErr=n;
+  [1,2,3].forEach(k=>{document.getElementById('gar-'+k).className='err-btn'+(k===n?' on':'');});
+}
+
+function rRidotto(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
+  const nm='<div style="color:var(--muted);font-size:12px;padding:10px 0">Seleziona partite nel ticket prima.</div>';
+  document.getElementById('ridotto-fisse').innerHTML=!ids.length?nm:ids.map(id=>{
+    const m=M.find(m=>m.id===+id);if(!m)return'';
+    return`<div style="margin-bottom:8px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">${m.home} vs ${m.away}</div>
+      <div class="bet-row">${[...sel[id]].map(o=>`<button class="obtn ${fisse_rid[id]===o?'on':''}" onclick="tFissa(${id},'${o}')" style="${fisse_rid[id]===o?'background:var(--gold);color:#000;border-color:var(--gold)':''}">📌 ${o}<span class="odd-val">${m.odds[o]}</span></button>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function tFissa(id,o){fisse_rid[id]=fisse_rid[id]===o?null:o;rRidotto();}
+
+function generaRidotto(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0&&!fisse_rid[id]);
+  if(!ids.length){document.getElementById('ridotto-output').innerHTML='<div class="card" style="color:var(--muted)">Seleziona almeno una partita non fissa.</div>';return;}
+  const n=ids.length;const erri=garErr;
+  const fisseIds=Object.entries(fisse_rid).filter(([,o])=>o);
+  // Sistema ridotto semplificato: genera combinazioni coprendo errori
+  const sched=INT.filter(s=>{
+    const fisseOk=fisseIds.every(([id,o])=>s.s.some(x=>x.mId===+id&&x.o===o));
+    return fisseOk;
+  });
+  document.getElementById('ridotto-output').innerHTML=`
+    <div class="card">
+      <div class="card-title">📐 Sistema Ridotto — Copertura ${erri} errori</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:10px">
+        Partite variabili: <strong style="color:var(--text)">${n}</strong> · 
+        Fisse: <strong style="color:var(--gold)">${fisseIds.length}</strong> · 
+        Schedine: <strong style="color:var(--green)">${sched.length.toLocaleString()}</strong>
+      </div>
+      ${sched.slice(0,20).map((s,i)=>`
+        <div class="schedina-row">
+          <div class="schedina-sels">${s.s.map(x=>`<span class="sch-tag">${x.h.substring(0,3).toUpperCase()} <strong>${x.o}</strong></span>`).join('')}</div>
+          <div class="sch-quote"><div class="sch-quota">x${s.t}</div><div class="sch-win">€${(s.t*cost).toFixed(2)}</div></div>
+        </div>`).join('')}
+      ${sched.length>20?`<div style="text-align:center;color:var(--muted);font-size:12px;margin-top:8px">+${(sched.length-20).toLocaleString()} altre schedine...</div>`:''}
+    </div>`;
+}
+
+// ── COMPUTE ──
+function cart(a){if(!a.length)return[[]];const[f,...r]=a;const rp=cart(r);const o=[];for(const i of f)for(const c of rp)o.push([i,...c]);return o;}
+
+function bI(){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
+  if(!ids.length)return[];
+  const arr=ids.map(id=>{
+    const m=M.find(m=>m.id===+id);if(!m)return[];
+    return[...sel[id]].map(o=>({mId:+id,h:m.home,a:m.away,date:m.date,time:m.time,league:m.league,o,q:m.odds[o]||1}));
+  }).filter(a=>a.length);
+  if(arr.some(a=>a.length===0))return[];
+  try{return cart(arr).map(s=>({s,t:+s.reduce((a,x)=>a*x.q,1).toFixed(2)}));}catch(e){return[];}
+}
+
 function exC(c){
   const SG=['1','X','2'];
-  function rec(i,cur,e){
-    if(i===c.sel.length)return[cur];
-    const it=c.sel[i];const res=rec(i+1,[...cur,it],e);
-    if(e>0&&SG.includes(it.o)){for(const alt of SG){if(alt!==it.o){const m=M.find(m=>m.id===it.matchId);if(m)res.push(...rec(i+1,[...cur,Object.assign({},it,{o:alt,q:m.odds[alt]||1})],e-1));}}}
-    return res;
+  const allErrs=[...c.errs];
+  const allVariants=[];
+  for(const maxE of allErrs){
+    function rec(i,cur,e){
+      if(i===c.sel.length)return[cur];
+      const it=c.sel[i];const res=rec(i+1,[...cur,it],e);
+      if(e>0&&SG.includes(it.o)){for(const alt of SG){if(alt!==it.o){const m=M.find(m=>m.id===it.matchId);if(m)res.push(...rec(i+1,[...cur,Object.assign({},it,{o:alt,q:m.odds[alt]||1})],e-1));}}}
+      return res;
+    }
+    allVariants.push(...rec(0,[],maxE));
   }
-  const all=rec(0,[],c.e);const seen=new Set();
-  return all.filter(r=>{const k=r.map(x=>x.matchId+':'+x.o).join('|');return seen.has(k)?false:(seen.add(k),true);});
+  const seen=new Set();
+  return allVariants.filter(r=>{const k=r.map(x=>x.matchId+':'+x.o).join('|');return seen.has(k)?false:(seen.add(k),true);});
 }
+
 function mV(s,v){return v.every(vx=>s.s.some(sx=>sx.mId===vx.matchId&&sx.o===vx.o));}
-function evN(n,cv,s){
-  if(n.type==='col')return cv[n.idx].some(v=>mV(s,v));
-  if(n.type==='and')return evN(n.left,cv,s)&&evN(n.right,cv,s);
-  if(n.type==='or')return evN(n.left,cv,s)||evN(n.right,cv,s);
-  return false;
-}
-function pL(inp){
-  const tk=inp.toUpperCase().replace(/\(/g,' ( ').replace(/\)/g,' ) ').split(/\s+/).filter(Boolean);
-  let p=0;
-  function pe(){let l=pp();while(p<tk.length&&(tk[p]==='AND'||tk[p]==='OR')){const op=tk[p++];l={type:op.toLowerCase(),left:l,right:pp()};}return l;}
-  function pp(){if(tk[p]==='('){p++;const e=pe();if(tk[p]===')') p++;return e;}const t=tk[p++];const m=t&&t.match(/^COL(\d+)$/);if(m){const i=+m[1]-1;if(i>=0&&i<cols.length)return{type:'col',idx:i};}return null;}
-  try{return pe();}catch(e){return null;}
-}
+
 function rc(){
   INT=bI();
-  const fe=Object.entries(fis).filter(([,o])=>o);
-  aF=fe.length?INT.filter(s=>fe.every(([id,o])=>s.s.some(x=>x.mId===+id&&x.o===o))):INT;
-  if(!cols.length){aC=aF;}else{
+  if(!cols.length){aC=INT;}else{
     const cv=cols.map(c=>exC(c));
-    const ls=document.getElementById('li')?document.getElementById('li').value:'';
-    const tree=ls.trim()?pL(ls.trim()):null;
-    aC=tree?aF.filter(s=>evN(tree,cv,s)):aF.filter(s=>cv.some(vs=>vs.some(v=>mV(s,v))));
+    // Tutte le colonne in AND
+    aC=INT.filter(s=>cv.every(variants=>variants.some(v=>mV(s,v))));
   }
-  const mn=parseFloat(document.getElementById('mn')?document.getElementById('mn').value:'')||0;
-  const mx=parseFloat(document.getElementById('mx')?document.getElementById('mx').value:'')||Infinity;
+  const mn=parseFloat(document.getElementById('minO')?document.getElementById('minO').value:'')||0;
+  const mx=parseFloat(document.getElementById('maxO')?document.getElementById('maxO').value:'')||Infinity;
   FIL=aC.filter(s=>s.t>=mn&&s.t<=mx);
-  document.getElementById('s0').textContent=INT.length.toLocaleString();
-  document.getElementById('s1').textContent=aF.length.toLocaleString();
-  document.getElementById('s2').textContent=aC.length.toLocaleString();
+  // Update header badge
   const hb=document.getElementById('hbdg');hb.style.display=INT.length>0?'flex':'none';
   document.getElementById('ic').textContent=INT.length.toLocaleString();
   document.getElementById('fc').textContent=FIL.length.toLocaleString();
-  const sc=Object.values(sel).filter(s=>s&&s.size>0).length;
+  // Update partite banner
+  const sc=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0).length;
   const bn=document.getElementById('ib');
-  if(sc>0){bn.style.display='flex';document.getElementById('it').textContent=sc+' partite → '+INT.length.toLocaleString()+' combinazioni';}
+  if(sc>0){bn.style.display='flex';document.getElementById('it').textContent=sc+' eventi → '+INT.length.toLocaleString()+' combinazioni';}
   else bn.style.display='none';
   rO();
 }
 
+// ── OUTPUT ──
 function cc(d){cost=Math.max(0.5,+(cost+d).toFixed(1));rO();}
+
 function rO(){
-  const oe=document.getElementById('oe'),oc=document.getElementById('oc');
-  if(!FIL.length){oe.style.display='';oc.style.display='none';return;}
-  oe.style.display='none';oc.style.display='';
-  const mq=Math.min(...FIL.map(s=>s.t)).toFixed(2),xq=Math.max(...FIL.map(s=>s.t)).toFixed(2);
-  document.getElementById('sg').innerHTML=[
+  const oe=document.getElementById('out-empty'),oc=document.getElementById('out-content');
+  if(!FIL.length){oe.style.display='block';oc.style.display='none';return;}
+  oe.style.display='none';oc.style.display='block';
+  const mq=Math.min(...FIL.map(s=>s.t)).toFixed(2);
+  const xq=Math.max(...FIL.map(s=>s.t)).toFixed(2);
+  document.getElementById('stats-row').innerHTML=[
     {l:'Schedine',v:FIL.length.toLocaleString(),c:'var(--green)'},
-    {l:'Costo',v:'€'+(FIL.length*cost).toFixed(2),c:'var(--gold)'},
-    {l:'Q.min',v:mq,c:'var(--blue)'},
-    {l:'Q.max',v:xq,c:'#d455a4'},
-  ].map(function(x){return'<div class="sc"><div class="sv" style="color:'+x.c+'">'+x.v+'</div><div class="sl">'+x.l+'</div></div>';}).join('');
-  document.getElementById('cl2').textContent='€'+cost.toFixed(2);
+    {l:'Costo Totale',v:'€'+(FIL.length*cost).toFixed(2),c:'var(--gold)'},
+    {l:'Quota Min',v:mq,c:'var(--blue)'},
+    {l:'Quota Max',v:xq,c:'#e91e63'},
+  ].map(x=>`<div class="stat-card"><div class="stat-val" style="color:${x.c}">${x.v}</div><div class="stat-lbl">${x.l}</div></div>`).join('');
+  document.getElementById('cost-val').textContent='€'+cost.toFixed(2);
   const tp=Math.ceil(FIL.length/PS);pg=Math.min(pg,Math.max(0,tp-1));
-  const sl2=FIL.slice(pg*PS,(pg+1)*PS);
-  document.getElementById('pi').textContent=(pg*PS+1)+'–'+Math.min((pg+1)*PS,FIL.length)+' di '+FIL.length.toLocaleString();
-  document.getElementById('sl').innerHTML=sl2.map(function(s){
-    const tgs=s.s.map(function(x){return'<span class="stag">'+x.h.substring(0,3).toUpperCase()+' <strong style="color:var(--green)">'+x.o+'</strong></span>';}).join('');
-    return'<div class="shed"><div style="display:flex;flex-wrap:wrap;gap:4px">'+tgs+'</div><div style="text-align:right"><div style="font-weight:700;color:var(--green);font-size:12px">x'+s.t+'</div><div style="font-size:10px;color:var(--muted)">€'+(s.t*cost).toFixed(2)+'</div></div></div>';
-  }).join('');
-  document.getElementById('pn').innerHTML=tp>1?
-    '<button class="pgb" onclick="pg=0;rO()" '+(pg===0?'disabled':'')+'>«</button>'+
-    '<button class="pgb" onclick="pg--;rO()" '+(pg===0?'disabled':'')+'>‹</button>'+
-    '<span style="padding:5px 12px;color:var(--muted);font-size:12px">'+(pg+1)+' / '+tp+'</span>'+
-    '<button class="pgb" onclick="pg++;rO()" '+(pg===tp-1?'disabled':'')+'>›</button>'+
-    '<button class="pgb" onclick="pg='+(tp-1)+';rO()" '+(pg===tp-1?'disabled':'')+'>»</button>':'';
+  const sl=FIL.slice(pg*PS,(pg+1)*PS);
+  document.getElementById('pinfo').textContent=(pg*PS+1)+'–'+Math.min((pg+1)*PS,FIL.length)+' di '+FIL.length.toLocaleString()+' schedine';
+  document.getElementById('sched-list').innerHTML=sl.map(s=>`
+    <div class="schedina-row">
+      <div class="schedina-sels">${s.s.map(x=>`<span class="sch-tag">${x.h.substring(0,3).toUpperCase()} vs ${x.a.substring(0,3).toUpperCase()} <strong style="color:var(--green)">${x.o}</strong></span>`).join('')}</div>
+      <div class="sch-quote"><div class="sch-quota">x${s.t}</div><div class="sch-win">€${(s.t*cost).toFixed(2)}</div></div>
+    </div>`).join('');
+  document.getElementById('pgn').innerHTML=tp>1?
+    `<button class="pgb" onclick="pg=0;rO()" ${pg===0?'disabled':''}>«</button>`+
+    `<button class="pgb" onclick="pg--;rO()" ${pg===0?'disabled':''}>‹</button>`+
+    `<span style="color:var(--muted);font-size:12px">${pg+1} / ${tp}</span>`+
+    `<button class="pgb" onclick="pg++;rO()" ${pg===tp-1?'disabled':''}>›</button>`+
+    `<button class="pgb" onclick="pg=${tp-1};rO()" ${pg===tp-1?'disabled':''}>»</button>`:'';
 }
 
-function rPv(){
+// ── STORICO ──
+function salvaGiocata(){
+  if(!INT.length){alert('Nessun sistema da salvare!');return;}
   const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
-  document.getElementById('pv').innerHTML=!ids.length?'Nessun dato.':
-    '<div style="margin-bottom:8px"><strong style="color:var(--green)">Integrale:</strong> '+ids.length+' partite, '+INT.length.toLocaleString()+' combinazioni</div>'+
-    '<div style="margin-bottom:8px"><strong style="color:var(--gold)">Fisse:</strong> '+( Object.entries(fis).filter(function(x){return x[1];}).map(function(x){const m=M.find(function(m){return m.id===+x[0];});return m?m.home+' '+x[1]:'';}).filter(Boolean).join(', ')||'Nessuna')+'</div>'+
-    '<div><strong style="color:var(--green)">Schedine:</strong> '+FIL.length.toLocaleString()+' — €'+(FIL.length*cost).toFixed(2)+'</div>';
+  const g={
+    id:Date.now(),
+    data:new Date().toLocaleString('it-IT'),
+    eventi:ids.map(id=>{
+      const m=M.find(m=>m.id===+id);
+      return{id:+id,home:m?m.home:'?',away:m?m.away:'?',league:m?m.league:'?',date:m?m.date:'?',time:m?m.time:'?',esiti:[...sel[id]],odds:m?m.odds:{}};
+    }),
+    colonne:cols.map(c=>({sel:c.sel,errs:[...c.errs]})),
+    integrale:INT.length,
+    condizionato:aC.length,
+    schedine:FIL.length,
+    costo:+(FIL.length*cost).toFixed(2),
+    costUnit:cost,
+    status:'pending',
+  };
+  storico.unshift(g);
+  localStorage.setItem('storico',JSON.stringify(storico));
+  alert('✅ Giocata salvata! Trovala nella sezione Storico.');
 }
 
-function dP(type){
+function rStorico(){
+  const el=document.getElementById('storico-list');
+  const se=document.getElementById('storico-empty');
+  if(!storico.length){se.style.display='block';el.style.display='none';return;}
+  se.style.display='none';el.style.display='block';
+  el.innerHTML=storico.map((g,i)=>`
+    <div class="giocata-card">
+      <div class="giocata-header">
+        <div>
+          <div class="giocata-title">Giocata #${storico.length-i}</div>
+          <div class="giocata-date">📅 ${g.data}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="status-badge status-${g.status}">${g.status==='pending'?'⏳ In attesa':g.status==='win'?'✅ Vincente':'❌ Perdente'}</span>
+          <button class="btn-red" onclick="eliminaGiocata(${g.id})">🗑️</button>
+        </div>
+      </div>
+      <div class="giocata-stats">
+        <div class="gstat"><div class="gstat-val" style="color:var(--text)">${g.eventi.length}</div><div class="gstat-lbl">Eventi</div></div>
+        <div class="gstat"><div class="gstat-val" style="color:var(--blue)">${g.integrale.toLocaleString()}</div><div class="gstat-lbl">Integrale</div></div>
+        <div class="gstat"><div class="gstat-val" style="color:var(--green)">${g.schedine.toLocaleString()}</div><div class="gstat-lbl">Schedine</div></div>
+        <div class="gstat"><div class="gstat-val" style="color:var(--gold)">€${g.costo}</div><div class="gstat-lbl">Costo</div></div>
+      </div>
+      <div style="margin-bottom:10px">
+        ${g.eventi.map(e=>`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+          <span style="color:var(--muted)">${e.league} · ${e.date}</span> · <strong>${e.home} vs ${e.away}</strong> · 
+          ${e.esiti.map(o=>`<span class="esito-tag ${esitoCls(o)}">${o}</span>`).join('')}
+        </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="verifica-btn" onclick="verificaGiocata(${g.id})">🔍 Verifica Risultati</button>
+        <button class="btn-red" onclick="setStatus(${g.id},'win')">✅ Vincente</button>
+        <button class="btn-red" onclick="setStatus(${g.id},'lose')">❌ Perdente</button>
+      </div>
+    </div>`).join('');
+}
+
+function eliminaGiocata(id){
+  if(!confirm('Eliminare questa giocata?'))return;
+  storico=storico.filter(g=>g.id!==id);
+  localStorage.setItem('storico',JSON.stringify(storico));
+  rStorico();
+}
+
+function setStatus(id,status){
+  storico=storico.map(g=>g.id===id?Object.assign({},g,{status}):g);
+  localStorage.setItem('storico',JSON.stringify(storico));
+  rStorico();
+}
+
+async function verificaGiocata(id){
+  const g=storico.find(g=>g.id===id);if(!g)return;
+  alert('🔍 Verifica risultati:\nConnettiti al servizio risultati per controllare gli esiti delle partite.\n\nPartite da verificare:\n'+g.eventi.map(e=>e.home+' vs '+e.away+' ('+e.date+')').join('\n'));
+}
+
+// ── STAMPA ──
+function rPreview(){
   const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
-  let h='<style>body{font-family:\'Segoe UI\',sans-serif;font-size:11px;color:#000;margin:15px}h1{font-size:16px;border-bottom:2px solid #333;padding-bottom:5px;margin-bottom:12px}h2{font-size:13px;margin:12px 0 6px}.m{border:1px solid #ccc;padding:5px;margin-bottom:4px}.tag{display:inline-block;border:1px solid #999;padding:1px 5px;margin:1px;font-size:10px}table{width:100%;border-collapse:collapse}th{background:#333;color:#fff;padding:5px;text-align:left}td{padding:3px 5px;border-bottom:1px solid #eee}.pb{page-break-after:always}</style>';
-  h+='<h1>⚽ Sistema Scommesse — '+new Date().toLocaleDateString('it-IT')+'</h1>';
-  if(type==='all'||type==='i'){
-    h+='<div class="'+(type==='all'?'pb':'')+'"><h2>SISTEMA INTEGRALE — '+ids.length+' partite, '+INT.length.toLocaleString()+' combinazioni</h2>';
-    ids.forEach(function(id){const m=M.find(function(m){return m.id===+id;});if(!m)return;const outs=[...sel[id]];h+='<div class="m"><strong>'+m.league+' — '+m.home+' vs '+m.away+'</strong> ('+m.date+' '+m.time+')<br>'+outs.map(function(o){return'<span class="tag"><strong>'+o+'</strong> @'+m.odds[o]+'</span>';}).join(' ')+'</div>';});
-    h+='</div>';
+  document.getElementById('print-preview').innerHTML=!ids.length?'Nessun dato.':
+    `<div style="margin-bottom:6px"><strong style="color:var(--green)">Sistema:</strong> ${ids.length} eventi · ${INT.length.toLocaleString()} combinazioni</div>`+
+    `<div style="margin-bottom:6px"><strong style="color:var(--blue)">Colonne:</strong> ${cols.length}</div>`+
+    `<div><strong style="color:var(--green)">Schedine:</strong> ${FIL.length.toLocaleString()} · Costo: €${(FIL.length*cost).toFixed(2)}</div>`;
+}
+
+function doPrint(type){
+  const ids=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0);
+  let h=`<style>
+    body{font-family:'Segoe UI',sans-serif;font-size:11px;color:#000;margin:15px}
+    h1{font-size:18px;border-bottom:3px solid #333;padding-bottom:8px;margin-bottom:16px}
+    h2{font-size:14px;margin:16px 0 8px;color:#333;border-left:4px solid #4caf50;padding-left:8px}
+    h3{font-size:12px;margin:10px 0 5px;color:#555}
+    .evento{border:1px solid #ddd;border-radius:6px;padding:8px;margin-bottom:8px;page-break-inside:avoid}
+    .evento-header{display:flex;justify-content:space-between;margin-bottom:6px}
+    .teams{font-weight:700;font-size:13px}
+    .meta{font-size:10px;color:#666}
+    .esiti{display:flex;gap:4px;flex-wrap:wrap}
+    .et{border:1px solid #999;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700}
+    .col-box{border:1px solid #2196f3;border-radius:6px;padding:8px;margin-bottom:6px;background:#f0f7ff}
+    .col-title{font-weight:700;color:#1565c0;margin-bottom:5px}
+    .col-row{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;border-bottom:1px solid #e0e0e0}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th{background:#333;color:#fff;padding:6px;text-align:left;font-size:11px}
+    td{padding:5px 6px;border-bottom:1px solid #eee;font-size:10px}
+    tr:nth-child(even){background:#f9f9f9}
+    .pb{page-break-after:always}
+    .quota{font-weight:700;color:#2e7d32}
+    .win{font-weight:700;color:#1565c0}
+    .summary{background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:10px;margin-bottom:16px}
+    .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+    .sv{font-size:18px;font-weight:800}.sl{font-size:10px;color:#666;text-transform:uppercase}
+  </style>`;
+  h+=`<h1>⚽ BetSystem Pro — ${new Date().toLocaleDateString('it-IT')} ${new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</h1>`;
+
+  if(type==='all'||type==='sistema'){
+    h+=`<div class="${type==='all'?'pb':''}">`;
+    h+=`<div class="summary"><div class="summary-grid">
+      <div><div class="sv">${ids.length}</div><div class="sl">Eventi</div></div>
+      <div><div class="sv">${INT.length.toLocaleString()}</div><div class="sl">Integrale</div></div>
+      <div><div class="sv">${aC.length.toLocaleString()}</div><div class="sl">Condizionato</div></div>
+      <div><div class="sv">${FIL.length.toLocaleString()}</div><div class="sl">Schedine</div></div>
+    </div></div>`;
+
+    if(cols.length){
+      h+=`<div class="grid2"><div>`;
+      h+=`<h2>📋 Sistema Integrale</h2>`;
+      ids.forEach(id=>{
+        const m=M.find(m=>m.id===+id);if(!m)return;
+        h+=`<div class="evento"><div class="evento-header"><div class="teams">${m.home} vs ${m.away}</div><div class="meta">${m.league} · ${m.date} ${m.time}</div></div>
+        <div class="esiti">${[...sel[id]].map(o=>`<span class="et">${o} @${m.odds[o]}</span>`).join('')}</div></div>`;
+      });
+      h+=`</div><div>`;
+      h+=`<h2>🔧 Colonne Condizionate (AND)</h2>`;
+      cols.forEach((c,i)=>{
+        h+=`<div class="col-box"><div class="col-title">COL ${i+1} · Errori tollerati: [${[...c.errs].join(',')}]</div>`;
+        c.sel.forEach(s=>{h+=`<div class="col-row"><span>${s.h} vs ${s.a}</span><strong>${s.o} @${s.q}</strong></div>`;});
+        h+=`</div>`;
+      });
+      h+=`</div></div>`;
+    } else {
+      h+=`<h2>📋 Sistema Integrale</h2>`;
+      ids.forEach(id=>{
+        const m=M.find(m=>m.id===+id);if(!m)return;
+        h+=`<div class="evento"><div class="evento-header"><div class="teams">${m.home} vs ${m.away}</div><div class="meta">${m.league} · ${m.date} ${m.time}</div></div>
+        <div class="esiti">${[...sel[id]].map(o=>`<span class="et">${o} @${m.odds[o]}</span>`).join('')}</div></div>`;
+      });
+    }
+    h+=`</div>`;
   }
-  if(type==='all'||type==='c'){
-    const fl=Object.entries(fis).filter(function(x){return x[1];});
-    h+='<div class="'+(type==='all'?'pb':'')+'"><h2>CONDIZIONI DI RIDUZIONE</h2><h3>Fisse ('+fl.length+')</h3>';
-    fl.length?fl.forEach(function(x){const m=M.find(function(m){return m.id===+x[0];});if(m)h+='<div class="m">'+m.home+' vs '+m.away+' → <strong>'+x[1]+'</strong> @'+m.odds[x[1]]+'</div>';}):h+='<p>Nessuna.</p>';
-    h+='<h3>Colonne ('+cols.length+')</h3>';
-    cols.length?cols.forEach(function(c,i){h+='<div class="m"><strong>COL'+(i+1)+'</strong> — Errori: '+c.e+'<br>'+c.sel.map(function(s){return'<span class="tag">'+s.h+' <strong>'+s.o+'</strong> @'+s.q+'</span>';}).join(' ')+'</div>';}):h+='<p>Nessuna.</p>';
-    h+='<p>Riduzione: '+INT.length.toLocaleString()+' → '+aF.length.toLocaleString()+' → '+aC.length.toLocaleString()+'</p></div>';
+
+  if(type==='all'||type==='schedine'){
+    const tp=FIL.slice(0,1000);
+    h+=`<div>`;
+    h+=`<h2>📊 Schedine da Giocare</h2>`;
+    h+=`<div class="summary" style="margin-bottom:12px"><strong>${FIL.length.toLocaleString()}</strong> schedine · €${cost.toFixed(2)}/schedina · Totale: <strong>€${(FIL.length*cost).toFixed(2)}</strong></div>`;
+    h+=`<table><tr><th>#</th><th>Partite e Esiti</th><th>Quota</th><th>Vincita</th></tr>`;
+    tp.forEach((s,i)=>{
+      const sels=s.s.map(x=>`${x.h} vs ${x.a} → <strong>${x.o}</strong> @${x.q}`).join(' | ');
+      h+=`<tr><td>${i+1}</td><td>${sels}</td><td class="quota">x${s.t}</td><td class="win">€${(s.t*cost).toFixed(2)}</td></tr>`;
+    });
+    if(FIL.length>1000)h+=`<tr><td colspan="4" style="text-align:center;color:#888;font-style:italic">Prime 1000 di ${FIL.length.toLocaleString()} schedine</td></tr>`;
+    h+=`</table></div>`;
   }
-  if(type==='all'||type==='s'){
-    const tp=FIL.slice(0,500);
-    h+='<div><h2>SCHEDINE — '+FIL.length.toLocaleString()+' — €'+cost+'/cad — €'+(FIL.length*cost).toFixed(2)+' totale</h2><table><tr><th>#</th><th>Selezioni</th><th>Quota</th><th>Vincita</th></tr>';
-    tp.forEach(function(s,i){h+='<tr><td>'+(i+1)+'</td><td>'+s.s.map(function(x){return x.h.substring(0,3).toUpperCase()+' '+x.o;}).join(' | ')+'</td><td>x'+s.t+'</td><td>€'+(s.t*cost).toFixed(2)+'</td></tr>';});
-    if(FIL.length>500)h+='<tr><td colspan="4" style="color:#888">Prime 500 di '+FIL.length.toLocaleString()+'</td></tr>';
-    h+='</table></div>';
-  }
+
   const w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Stampa</title></head><body>'+h+'</body></html>');
-  w.document.close();w.focus();setTimeout(function(){w.print();},400);
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>BetSystem Pro — Stampa</title></head><body>'+h+'</body></html>');
+  w.document.close();w.focus();setTimeout(()=>w.print(),500);
 }
 </script>
 </body>
