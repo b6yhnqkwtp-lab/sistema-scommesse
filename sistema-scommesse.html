@@ -517,12 +517,20 @@ function rM(){
   if(sc>0){bn.style.display='flex';document.getElementById('it').textContent=sc+' eventi → '+INT.length.toLocaleString()+' combinazioni';}
   else bn.style.display='none';
   if(!vm.length){document.getElementById('ml').innerHTML='<div class="empty-state"><div class="empty-icon">⚽</div>Nessuna partita</div>';return;}
-  const byDate={};
-  for(const m of vm){if(!byDate[m.date])byDate[m.date]=[];byDate[m.date].push(m);}
+  const byLeague={};
+  for(const m of vm){
+    if(!byLeague[m.league])byLeague[m.league]=[];
+    byLeague[m.league].push(m);
+  }
   let html='';
-  for(const[date,matches]of Object.entries(byDate)){
-    html+=`<div class="date-sep">📅 ${date}</div>`;
-    for(const m of matches){
+  for(const[league,lmatches]of Object.entries(byLeague)){
+    const lc=lmatches[0].lc;
+    html+=`<div style="display:flex;align-items:center;gap:8px;padding:12px 4px 6px;border-bottom:2px solid ${lc}44;margin-bottom:8px"><span style="background:${lc}22;color:${lc};font-weight:700;font-size:12px;padding:3px 12px;border-radius:20px;border:1px solid ${lc}44">${league}</span><span style="font-size:11px;color:#8a9bb0">${lmatches.length} partite</span></div>`;
+    const byDate={};
+    for(const m of lmatches){if(!byDate[m.date])byDate[m.date]=[];byDate[m.date].push(m);}
+    for(const[date,matches]of Object.entries(byDate)){
+      html+=`<div class="date-sep">📅 ${date}</div>`;
+      for(const m of matches){
       const s=sel[m.id]||new Set();
       const bt=s.size===1?'singola':s.size===2?'doppia':s.size>=3?'multipla':'';
       const main=['1','X','2'].filter(b=>m.odds[b]!=null).map(b=>`<button class="obtn ${s.has(b)?'on':''}" onclick="tS(${m.id},'${b}')"><span class="odd-name">${b}</span><span class="odd-val">${m.odds[b]}</span></button>`).join('');
@@ -546,6 +554,7 @@ function rM(){
           ${extra}
         </div>
       </div>`;
+      }
     }
   }
   document.getElementById('ml').innerHTML=html;
