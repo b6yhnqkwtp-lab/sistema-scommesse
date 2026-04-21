@@ -226,8 +226,39 @@ input{font-family:inherit}
 <div class="header">
   <div class="hrow">
     <div class="logo">
-      <span class="logo-icon">⚽</span>
-      <div><div class="logo-text">Win System</div><div class="logo-sub">by Andrea Giorgio</div></div>
+      <svg width="180" height="52" viewBox="0 0 680 320" role="img" style="display:block">
+        <defs>
+          <radialGradient id="ball" cx="38%" cy="32%" r="60%"><stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#f0f0f0"/><stop offset="100%" stop-color="#c8cdd6"/></radialGradient>
+          <radialGradient id="patch-red" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#ef5350"/><stop offset="100%" stop-color="#b71c1c"/></radialGradient>
+          <radialGradient id="patch-blue" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#42a5f5"/><stop offset="100%" stop-color="#0d47a1"/></radialGradient>
+          <clipPath id="bc"><circle cx="300" cy="148" r="88"/></clipPath>
+        </defs>
+        <!-- Scia -->
+        <path d="M360,90 Q420,55 500,45 Q550,38 600,50" fill="none" stroke="#0d47a1" stroke-width="18" stroke-linecap="round" opacity="0.28"/>
+        <path d="M365,105 Q430,80 510,72 Q560,65 610,70" fill="none" stroke="#b71c1c" stroke-width="13" stroke-linecap="round" opacity="0.25"/>
+        <path d="M358,130 Q410,120 480,118 Q530,116 575,122" fill="none" stroke="#0d47a1" stroke-width="9" stroke-linecap="round" opacity="0.22"/>
+        <path d="M362,160 Q415,165 480,170 Q530,173 570,168" fill="none" stroke="#b71c1c" stroke-width="8" stroke-linecap="round" opacity="0.2"/>
+        <!-- Dollari -->
+        <text x="445" y="62" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#a8c400" opacity="0.92" transform="rotate(-12 445 62)">$</text>
+        <text x="510" y="95" font-family="Arial Black,sans-serif" font-size="22" font-weight="900" fill="#a8c400" opacity="0.85" transform="rotate(-6 510 95)">$</text>
+        <text x="575" y="155" font-family="Arial Black,sans-serif" font-size="20" font-weight="900" fill="#a8c400" opacity="0.8" transform="rotate(5 575 155)">$</text>
+        <!-- Pallone -->
+        <circle cx="300" cy="148" r="88" fill="url(#ball)"/>
+        <polygon points="300,72 334,92 334,132 300,152 266,132 266,92" fill="url(#patch-red)" clip-path="url(#bc)"/>
+        <polygon points="266,92 235,76 222,108 244,132 266,132" fill="url(#patch-red)" clip-path="url(#bc)" opacity="0.88"/>
+        <polygon points="334,92 365,76 378,108 356,132 334,132" fill="url(#patch-red)" clip-path="url(#bc)" opacity="0.88"/>
+        <polygon points="222,108 205,140 220,170 244,168 244,132" fill="url(#patch-blue)" clip-path="url(#bc)" opacity="0.9"/>
+        <polygon points="378,108 395,140 380,170 356,168 356,132" fill="url(#patch-blue)" clip-path="url(#bc)" opacity="0.9"/>
+        <polygon points="244,168 220,170 232,198 268,210 300,204 300,152 266,132" fill="url(#patch-blue)" clip-path="url(#bc)" opacity="0.85"/>
+        <polygon points="356,168 380,170 368,198 332,210 300,204 300,152 334,132" fill="url(#patch-blue)" clip-path="url(#bc)" opacity="0.85"/>
+        <ellipse cx="270" cy="108" rx="28" ry="18" fill="white" opacity="0.32" transform="rotate(-25 270 108)"/>
+        <circle cx="300" cy="148" r="88" fill="none" stroke="#9aa5b4" stroke-width="1.2"/>
+        <!-- Testo -->
+        <text x="420" y="165" font-family="'Segoe UI',Arial Black,sans-serif" font-size="80" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="4">WIN</text>
+        <rect x="318" y="176" width="204" height="3" fill="#a8c400" rx="1.5"/>
+        <text x="420" y="200" font-family="'Segoe UI',Arial,sans-serif" font-size="20" font-weight="400" fill="#8a9bb0" text-anchor="middle" letter-spacing="7">SYSTEM</text>
+        <text x="420" y="222" font-family="'Segoe UI',Arial,sans-serif" font-size="14" font-weight="400" fill="#546e7a" text-anchor="middle" letter-spacing="1.5">by Andrea &amp; Giorgio</text>
+      </svg>
     </div>
     <div id="srv" class="srv-badge srv-ok"><div class="srv-dot"></div><span>Online</span></div>
     <div id="hbdg" style="display:none;gap:6px;align-items:center;margin-left:8px">
