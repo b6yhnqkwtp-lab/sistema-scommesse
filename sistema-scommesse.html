@@ -722,10 +722,21 @@ function rColonne(){
   document.getElementById('col-section').style.display=cols.length?'block':'none';
   document.getElementById('dual-section').style.display=cols.length?'block':'none';
   document.getElementById('col-visual').innerHTML=cols.map((c,i)=>{
-    const errs=[0,1,2,3].map(n=>`<button class="err-btn ${c.errs.has(n)?'on':''}" onclick="tErr(${c.id},${n})">${n}</button>`).join('');
+    // Errori max = numero esiti nella colonna (solo 1X2 contano come errori)
+    const maxErr=c.sel.filter(s=>['1','X','2'].includes(s.o)).length;
+    const errs=Array.from({length:maxErr+1},(_,n)=>`<button class="err-btn ${c.errs.has(n)?'on':''}" onclick="tErr(${c.id},${n})" title="${n===0?'Nessun errore':n+' errore/i tollerato/i'}">${n}</button>`).join('');
     const rows=c.sel.map(s=>`<div class="col-match-row"><div class="col-match-name">${s.h} vs ${s.a}</div><div class="col-match-esito">${s.o}</div></div>`).join('');
-    return`<div class="col-card"><div class="col-card-header"><div class="col-card-title">COL ${i+1}</div><button class="btn-red" style="padding:3px 8px;font-size:11px" onclick="remCol(${c.id})">✕</button></div>${rows}<div class="col-err-row"><span class="col-err-label">Errori:</span>${errs}</div></div>`;
-  }).join('');
+    return`<div class="col-card">
+      <div class="col-card-header">
+        <div class="col-card-title">COL ${i+1} <span style="font-size:10px;color:#8a9bb0;font-weight:400">${c.sel.length} esiti</span></div>
+        <button class="btn-red" style="padding:3px 8px;font-size:11px" onclick="remCol(${c.id})">✕</button>
+      </div>
+      ${rows}
+      <div class="col-err-row">
+        <span class="col-err-label">Errori (0-${maxErr}):</span>${errs}
+      </div>
+    </div>`;}
+  ).join('');
   // dual
   document.getElementById('dual-integrale').innerHTML=Object.keys(sel).filter(id=>sel[id]&&sel[id].size>0).map(id=>{
     const m=M.find(m=>m.id===+id);if(!m)return'';
@@ -742,7 +753,14 @@ function rColonne(){
 function tCB(id,o){if(!window._colB)window._colB={};if(!window._colB[id])window._colB[id]=new Set();window._colB[id].has(o)?window._colB[id].delete(o):window._colB[id].add(o);rColonne();}
 function addCol(){if(!window._colB)return;const sels=[];for(const[id,set]of Object.entries(window._colB)){if(!set||!set.size)continue;const m=M.find(m=>m.id===+id);if(!m)continue;for(const o of set)sels.push({matchId:+id,h:m.home,a:m.away,o,q:m.odds[o]||1});}if(!sels.length)return;cols.push({id:Date.now(),sel:sels,errs:new Set([0])});window._colB={};rc();rColonne();}
 function remCol(id){cols=cols.filter(c=>c.id!==id);rc();rColonne();}
-function tErr(id,n){const c=cols.find(c=>c.id===id);if(!c)return;if(c.errs.has(n)&&c.errs.size>1)c.errs.delete(n);else c.errs.add(n);rc();rColonne();}
+function tErr(id,n){
+  const c=cols.find(c=>c.id===id);if(!c)return;
+  const maxErr=c.sel.filter(s=>['1','X','2'].includes(s.o)).length;
+  if(n>maxErr)return; // sicurezza
+  if(c.errs.has(n)&&c.errs.size>1)c.errs.delete(n);
+  else c.errs.add(n);
+  rc();rColonne();
+}
 
 // ── RIDOTTO ──
 function setGar(n){garErr=n;[1,2,3].forEach(k=>{document.getElementById('gar-'+k).className='err-btn'+(k===n?' on':'');});}
@@ -772,19 +790,51 @@ function bI(){
   try{return cart(arr).map(s=>({s,t:+s.reduce((a,x)=>a*x.q,1).toFixed(2)}));}catch(e){return[];}
 }
 function exC(c){
-  const SG=['1','X','2'];const allV=[];
+  // Genera tutte le varianti della colonna con i livelli di errore selezionati
+  // Un "errore" = uno degli esiti 1X2 della colonna può essere sbagliato
+  const SG=['1','X','2'];
+  const allV=[];
   for(const maxE of c.errs){
-    function rec(i,cur,e){if(i===c.sel.length)return[cur];const it=c.sel[i];const res=rec(i+1,[...cur,it],e);if(e>0&&SG.includes(it.o)){for(const alt of SG){if(alt!==it.o){const m=M.find(m=>m.id===it.matchId);if(m)res.push(...rec(i+1,[...cur,Object.assign({},it,{o:alt,q:m.odds[alt]||1})],e-1));}}}return res;}
+    function rec(i,cur,e){
+      if(i===c.sel.length)return[cur];
+      const it=c.sel[i];
+      const res=rec(i+1,[...cur,it],e);
+      // Sostituisci solo esiti 1X2 (non Over/Under/GG/NG ecc)
+      if(e>0&&SG.includes(it.o)){
+        for(const alt of SG){
+          if(alt!==it.o){
+            const m=M.find(m=>m.id===it.matchId);
+            if(m)res.push(...rec(i+1,[...cur,Object.assign({},it,{o:alt,q:m.odds[alt]||1})],e-1));
+          }
+        }
+      }
+      return res;
+    }
     allV.push(...rec(0,[],maxE));
   }
-  const seen=new Set();return allV.filter(r=>{const k=r.map(x=>x.matchId+':'+x.o).join('|');return seen.has(k)?false:(seen.add(k),true);});
+  const seen=new Set();
+  return allV.filter(r=>{
+    const k=r.map(x=>x.matchId+':'+x.o).join('|');
+    return seen.has(k)?false:(seen.add(k),true);
+  });
 }
-function mV(s,v){return v.every(vx=>s.s.some(sx=>sx.mId===vx.matchId&&sx.o===vx.o));}
+
+// Verifica se una schedina rispetta una variante di colonna:
+// La schedina deve contenere TUTTI gli esiti della variante (subset match)
+function mV(schedina,variante){
+  return variante.every(vx=>
+    schedina.s.some(sx=>sx.mId===vx.matchId && sx.o===vx.o)
+  );
+}
 function rc(){
   INT=bI();
   if(!cols.length||elabMode!=='col'){aC=INT;}
-  else{const cv=cols.map(c=>exC(c));aC=INT.filter(s=>cv.every(variants=>variants.some(v=>mV(s,v))));}
-  const mn=parseFloat(document.getElementById('minO')?document.getElementById('minO').value:'')||0;
+  else{
+    const cv=cols.map(c=>exC(c));
+    // Una schedina è mantenuta solo se rispetta TUTTE le colonne (AND)
+    // Per ogni colonna, almeno una delle sue varianti deve essere sottoinsieme della schedina
+    aC=INT.filter(s=>cv.every(variants=>variants.some(v=>mV(s,v))));
+  }  const mn=parseFloat(document.getElementById('minO')?document.getElementById('minO').value:'')||0;
   const mx=parseFloat(document.getElementById('maxO')?document.getElementById('maxO').value:'')||Infinity;
   FIL=aC.filter(s=>s.t>=mn&&s.t<=mx);
   const hb=document.getElementById('hbdg');hb.style.display=INT.length>0?'flex':'none';
