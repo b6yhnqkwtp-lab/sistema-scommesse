@@ -790,50 +790,30 @@ function bI(){
   try{return cart(arr).map(s=>({s,t:+s.reduce((a,x)=>a*x.q,1).toFixed(2)}));}catch(e){return[];}
 }
 function exC(c){
-  // Genera tutte le varianti della colonna con i livelli di errore selezionati
-  // Un "errore" = uno degli esiti 1X2 della colonna può essere sbagliato
-  const SG=['1','X','2'];
-  const allV=[];
-  for(const maxE of c.errs){
-    function rec(i,cur,e){
-      if(i===c.sel.length)return[cur];
-      const it=c.sel[i];
-      const res=rec(i+1,[...cur,it],e);
-      // Sostituisci solo esiti 1X2 (non Over/Under/GG/NG ecc)
-      if(e>0&&SG.includes(it.o)){
-        for(const alt of SG){
-          if(alt!==it.o){
-            const m=M.find(m=>m.id===it.matchId);
-            if(m)res.push(...rec(i+1,[...cur,Object.assign({},it,{o:alt,q:m.odds[alt]||1})],e-1));
-          }
-        }
-      }
-      return res;
-    }
-    allV.push(...rec(0,[],maxE));
-  }
-  const seen=new Set();
-  return allV.filter(r=>{
-    const k=r.map(x=>x.matchId+':'+x.o).join('|');
-    return seen.has(k)?false:(seen.add(k),true);
-  });
+  // Non genera varianti — restituisce la colonna base
+  // La verifica avviene in mV contando le differenze
+  return[c.sel];
 }
 
-// Verifica se una schedina rispetta una variante di colonna:
-// La schedina deve contenere TUTTI gli esiti della variante (subset match)
-function mV(schedina,variante){
-  return variante.every(vx=>
-    schedina.s.some(sx=>sx.mId===vx.matchId && sx.o===vx.o)
-  );
+// Conta quanti esiti della schedina differiscono dalla colonna
+// Una schedina rispetta la colonna se il numero di differenze è <= uno dei valori in c.errs
+function mV(schedina,colonna,errs){
+  // Per ogni esito della colonna, trova l'esito corrispondente nella schedina (stessa partita)
+  let diff=0;
+  for(const cv of colonna){
+    const sv=schedina.s.find(sx=>sx.mId===cv.matchId);
+    if(!sv||sv.o!==cv.o)diff++;
+  }
+  // La schedina passa se le differenze rientrano in almeno uno dei livelli errore scelti
+  return errs.has(diff)||[...errs].some(e=>diff<=e);
 }
 function rc(){
   INT=bI();
   if(!cols.length||elabMode!=='col'){aC=INT;}
   else{
-    const cv=cols.map(c=>exC(c));
-    // Una schedina è mantenuta solo se rispetta TUTTE le colonne (AND)
-    // Per ogni colonna, almeno una delle sue varianti deve essere sottoinsieme della schedina
-    aC=INT.filter(s=>cv.every(variants=>variants.some(v=>mV(s,v))));
+    // Per ogni colonna, mantieni solo le schedine che hanno
+    // un numero di errori rispetto alla colonna incluso nei valori selezionati
+    aC=INT.filter(s=>cols.every(c=>mV(s,c.sel,c.errs)));
   }  const mn=parseFloat(document.getElementById('minO')?document.getElementById('minO').value:'')||0;
   const mx=parseFloat(document.getElementById('maxO')?document.getElementById('maxO').value:'')||Infinity;
   FIL=aC.filter(s=>s.t>=mn&&s.t<=mx);
